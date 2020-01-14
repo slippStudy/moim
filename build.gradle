@@ -1,7 +1,9 @@
 plugins {
     id 'java'
-    id 'application'
+    id "org.springframework.boot" version "2.2.2.RELEASE"
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
+
 
 repositories {
     jcenter()
@@ -10,16 +12,14 @@ repositories {
 dependencies {
     implementation 'com.google.guava:guava:28.0-jre'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
 }
 
-
-
-application {
-    mainClassName = 'net.slipp.user.App'
-}
 
 test {
     useJUnitPlatform()
