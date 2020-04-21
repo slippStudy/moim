@@ -22,13 +22,13 @@ public class Recruitment {
     private final EndpolicyId endpolicyId;
 
     @NotNull
-    private RecruitmentStatus status;
+    private Status status;
 
     Recruitment(@NotNull RecruitmentId id, @NotNull MeetupId meetupId, EndpolicyId endpolicyId) {
         this.id = id;
         this.meetupId = meetupId;
         this.endpolicyId = endpolicyId;
-        this.status = RecruitmentStatus.BEGIN;
+        this.status = Status.BEGIN;
     }
 
     public MeetupId getMeetupId() {
@@ -39,11 +39,25 @@ public class Recruitment {
         return id;
     }
 
-    public RecruitmentStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(RecruitmentStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void start() {
+        if (this.status == Status.START){
+            throw new IllegalStateException();
+        }
+        this.status = Status.START;
+    }
+
+    public void finish() {
+        if (this.status == Status.FINISH){
+
+        }
+        this.status = Status.FINISH;
     }
 }

@@ -5,7 +5,7 @@
 
 package net.slipp.franchise.domain.model.recruitment;
 
-public enum RecruitmentStatus {
+public enum Status {
 
-    BEGIN, END
+    BEGIN, START, FINISH
 }

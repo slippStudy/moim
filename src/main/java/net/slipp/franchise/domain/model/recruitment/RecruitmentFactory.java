@@ -20,9 +20,8 @@ public class RecruitmentFactory {
     }
 
     public Recruitment create(MeetupId meetupId) {
-
         @NotNull RecruitmentId id = recruitmentIdGenerator.gen();
-        Recruitment recruitment = new Recruitment(id, meetupId, endpolicyId);
+        Recruitment recruitment = new Recruitment(id, meetupId, null);
         return recruitment;
     }
 }

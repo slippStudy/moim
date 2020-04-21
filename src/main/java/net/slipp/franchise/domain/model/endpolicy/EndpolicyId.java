@@ -14,7 +14,7 @@ public class EndpolicyId {
     public static EndpolicyId of(String value){
 
         EndpolicyId endpolicyId = new EndpolicyId(value);
-
+        
         return endpolicyId;
     }
 
