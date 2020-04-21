@@ -5,11 +5,17 @@
 
 package net.slipp.franchise.domain.model.recruitment;
 
-import net.slipp.franchise.domain.model.endpolicy.EndpolicyId;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import net.slipp.franchise.domain.model.meetup.MeetupId;
 
 import javax.validation.constraints.NotNull;
 
+import static net.slipp.franchise.domain.model.recruitment.Status.*;
+
+@Getter
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Recruitment {
 
     @NotNull
@@ -19,45 +25,25 @@ public class Recruitment {
     private final MeetupId meetupId;
 
     @NotNull
-    private final EndpolicyId endpolicyId;
-
-    @NotNull
     private Status status;
 
-    Recruitment(@NotNull RecruitmentId id, @NotNull MeetupId meetupId, EndpolicyId endpolicyId) {
-        this.id = id;
-        this.meetupId = meetupId;
-        this.endpolicyId = endpolicyId;
-        this.status = Status.BEGIN;
-    }
-
-    public MeetupId getMeetupId() {
-        return meetupId;
-    }
-
-    public RecruitmentId getId() {
-        return id;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public void start() {
-        if (this.status == Status.START){
+        if (BEGIN != getStatus()) {
             throw new IllegalStateException();
         }
-        this.status = Status.START;
+        setStatus(START);
+
     }
 
     public void finish() {
-        if (this.status == Status.FINISH){
-
+        // TODO 상태 전이 책임을 다르 곳을 옮겨 주세요
+        if (START != getStatus()) {
+            throw new IllegalStateException();
         }
-        this.status = Status.FINISH;
+        setStatus(FINISH);
+    }
+
+    private void setStatus(@NotNull final Status status) {
+        this.status = status;
     }
 }

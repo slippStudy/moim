@@ -7,8 +7,12 @@ package net.slipp.franchise.domain.model.recruitment;
 
 import net.slipp.franchise.domain.model.meetup.MeetupId;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Objects;
+
+import static net.slipp.franchise.domain.model.recruitment.Status.BEGIN;
 
 public class RecruitmentFactory {
 
@@ -20,8 +24,14 @@ public class RecruitmentFactory {
     }
 
     public Recruitment create(MeetupId meetupId) {
-        @NotNull RecruitmentId id = recruitmentIdGenerator.gen();
-        Recruitment recruitment = new Recruitment(id, meetupId, null);
+        RecruitmentId id = recruitmentIdGenerator.gen();
+        Recruitment recruitment = new Recruitment(id, meetupId, BEGIN);
+
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        validator.validate(recruitment);
+
         return recruitment;
     }
 }

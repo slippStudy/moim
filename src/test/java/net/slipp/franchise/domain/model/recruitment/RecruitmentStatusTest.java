@@ -12,8 +12,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static net.slipp.franchise.domain.model.recruitment.Status.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static net.slipp.franchise.domain.model.recruitment.Status.FINISH;
+import static net.slipp.franchise.domain.model.recruitment.Status.START;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,34 +35,41 @@ public class RecruitmentStatusTest {
         dut = factory.create(meetupId);
     }
 
+
     @Test
-    void start() {
+    void beginToStart() {
         dut.start();
         assertEquals(START, dut.getStatus());
     }
 
     @Test
-    void startRepeat() {
+    void startToStart() {
         dut.start();
         assertThrows(IllegalStateException.class,() -> {
             dut.start();
         });
     }
 
-
+    @Test
+    void beginToFinish() {
+        assertThrows(IllegalStateException.class,() -> {
+            dut.finish();
+        });
+    }
 
     @Test
     void finish() {
+        dut.start();
         dut.finish();
         assertEquals(FINISH, dut.getStatus());
     }
 
     @Test
-    void finishAndFinish() {
-        Recruitment recruitment = factory.create(meetupId);
-        recruitment.finish();
-        assertEquals(FINISH, recruitment.getStatus());
-        recruitment.finish();
-        assertEquals(FINISH, recruitment.getStatus());
+    void finishToFinish() {
+        dut.start();
+        dut.finish();
+        assertThrows(IllegalStateException.class,() -> {
+            dut.finish();
+        });
     }
 }
