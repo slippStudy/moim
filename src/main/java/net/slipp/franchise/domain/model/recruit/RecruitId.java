@@ -3,20 +3,20 @@
  * Github : http://github.com/lenkim
  */
 
-package net.slipp.franchise.domain.model.recruitment;
+package net.slipp.franchise.domain.model.recruit;
 
 import java.util.Objects;
 
-public class RecruitmentId {
+public class RecruitId {
 
     private final String value;
 
-    public static RecruitmentId of(String value) {
-        RecruitmentId RecruitmentId = new RecruitmentId(value);
-        return RecruitmentId;
+    public static RecruitId of(String value) {
+        RecruitId RecruitId = new RecruitId(value);
+        return RecruitId;
     }
 
-    RecruitmentId(String value) {
+    RecruitId(String value) {
         this.value = value;
     }
 
@@ -29,8 +29,8 @@ public class RecruitmentId {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RecruitmentId RecruitmentId = (RecruitmentId) o;
-        return Objects.equals(value, RecruitmentId.value);
+        RecruitId RecruitId = (RecruitId) o;
+        return Objects.equals(value, RecruitId.value);
     }
 
     @Override

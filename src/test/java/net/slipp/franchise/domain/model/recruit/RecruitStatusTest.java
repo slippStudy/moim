@@ -3,7 +3,7 @@
  * Github : http://github.com/lenkim
  */
 
-package net.slipp.franchise.domain.model.recruitment;
+package net.slipp.franchise.domain.model.recruit;
 
 import net.slipp.franchise.domain.model.meetup.MeetupId;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,26 +12,26 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static net.slipp.franchise.domain.model.recruitment.Status.FINISH;
-import static net.slipp.franchise.domain.model.recruitment.Status.START;
+import static net.slipp.franchise.domain.model.recruit.Status.FINISH;
+import static net.slipp.franchise.domain.model.recruit.Status.START;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class RecruitmentStatusTest {
+public class RecruitStatusTest {
 
-    private RecruitmentFactory factory;
+    private RecruitFactory factory;
 
     @Mock
-    private RecruitmentIdGenerator recruitmentIdGenerator;
+    private RecruitIdGenerator recruitIdGenerator;
     private MeetupId meetupId = MeetupId.of("1");
-    private Recruitment dut;
+    private Recruit dut;
 
     @BeforeEach
     void setUp() {
-        given(recruitmentIdGenerator.gen()).willReturn(RecruitmentId.of("1"));
-        factory = new RecruitmentFactory(recruitmentIdGenerator);
+        given(recruitIdGenerator.gen()).willReturn(RecruitId.of("1"));
+        factory = new RecruitFactory(recruitIdGenerator);
         dut = factory.create(meetupId);
     }
 
