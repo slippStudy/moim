@@ -5,6 +5,7 @@
 
 package net.slipp.franchise.domain.model.recruit;
 
+import com.google.common.collect.Lists;
 import net.slipp.common.domain.model.DomainEvent;
 import net.slipp.common.domain.model.DomainEventPublisher;
 import net.slipp.franchise.domain.model.meetup.MeetupId;
@@ -18,8 +19,6 @@ import java.util.List;
 
 import static net.slipp.franchise.domain.model.recruit.Status.FINISH;
 import static net.slipp.franchise.domain.model.recruit.Status.START;
-import static org.hamcrest.Matchers.arrayContaining;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
@@ -59,28 +58,29 @@ public class RecruitStatusTest {
 
     @SafeVarargs
     private final void expectedEvent(Class<? extends DomainEvent>... anExpectedClass) {
-        List<Class<? extends DomainEvent>> actuals = DomainEventPublisher.instance().getEventsClass();
-        org.hamcrest.MatcherAssert.assertThat(anExpectedClass, is(arrayContaining(actuals)));
+        List<Class<? extends DomainEvent>> classes = Lists.newArrayList(anExpectedClass);
+        List<Class<? extends DomainEvent>> actual = DomainEventPublisher.instance().getEventsClass();
+        assertEquals(classes, actual.toArray());
+
 //
     }
 
     @Test
     void startToStart() {
         dut.start();
-        assertThrows(IllegalStateException.class,() -> {
+        assertThrows(IllegalStateException.class, () -> {
             dut.start();
         });
     }
 
     @Test
     void beginToFinish() {
-        assertThrows(IllegalStateException.class,() -> {
+        assertThrows(IllegalStateException.class, () -> {
             dut.finish();
         });
     }
 
     @Test
-
     void finish() {
         dut.start();
         dut.finish();
@@ -96,8 +96,15 @@ public class RecruitStatusTest {
     void finishToFinish() {
         dut.start();
         dut.finish();
-        assertThrows(IllegalStateException.class,() -> {
+        assertThrows(IllegalStateException.class, () -> {
             dut.finish();
         });
+    }
+
+    @Test
+    void name() {
+        assertEquals(Lists.newArrayList(RecruitStatusChangedEvent.class, RecruitCreatedEvent.class)
+                , Lists.newArrayList(RecruitStatusChangedEvent.class, RecruitCreatedEvent.class)
+        );
     }
 }
