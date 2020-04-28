@@ -8,6 +8,7 @@ package net.slipp.franchise.domain.model.recruit;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.slipp.common.domain.model.DomainEventPublisher;
 import net.slipp.franchise.domain.model.meetup.MeetupId;
 
 import javax.validation.constraints.NotNull;
@@ -33,6 +34,7 @@ public class Recruit {
         }
         setStatus(START);
 
+
     }
 
     public void finish() {
@@ -45,5 +47,6 @@ public class Recruit {
 
     private void setStatus(@NotNull final Status status) {
         this.status = status;
+        DomainEventPublisher.instance().publish(new RecruitStatusChangedEvent());
     }
 }

@@ -5,6 +5,7 @@
 
 package net.slipp.franchise.domain.model.recruit;
 
+import net.slipp.common.domain.model.DomainEventPublisher;
 import net.slipp.franchise.domain.model.meetup.MeetupId;
 
 import javax.validation.Validation;
@@ -32,6 +33,7 @@ public class RecruitFactory {
         Validator validator = validatorFactory.getValidator();
         validator.validate(recruit);
 
+        DomainEventPublisher.instance().publish(new RecruitCreatedEvent());
         return recruit;
     }
 }
