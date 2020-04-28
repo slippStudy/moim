@@ -9,7 +9,5 @@ package net.slipp.franchise.domain.model.recruit;
 public class DomainEventPublisher {
     public void publish(RecruitmentStarted recruitmentStarted) {
 
-
-
     }
 }

@@ -9,8 +9,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import net.slipp.franchise.domain.model.recruit.RecruitId;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @EqualsAndHashCode
 @Getter
