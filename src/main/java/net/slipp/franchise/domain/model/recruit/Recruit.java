@@ -3,7 +3,7 @@
  * Github : http://github.com/lenkim
  */
 
-package net.slipp.franchise.domain.model.recruitment;
+package net.slipp.franchise.domain.model.recruit;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,14 +12,14 @@ import net.slipp.franchise.domain.model.meetup.MeetupId;
 
 import javax.validation.constraints.NotNull;
 
-import static net.slipp.franchise.domain.model.recruitment.Status.*;
+import static net.slipp.franchise.domain.model.recruit.Status.*;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public class Recruitment {
+public class Recruit {
 
     @NotNull
-    private final RecruitmentId id;
+    private final RecruitId id;
 
     @NotNull
     private final MeetupId meetupId;

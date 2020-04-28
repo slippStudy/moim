@@ -3,7 +3,7 @@
  * Github : http://github.com/lenkim
  */
 
-package net.slipp.franchise.domain.model.recruitment;
+package net.slipp.franchise.domain.model.recruit;
 
 public enum Status {
 

@@ -1,4 +1,4 @@
-package net.slipp.franchise.domain.model.recruitment;
+package net.slipp.franchise.domain.model.recruit;
 
 import net.slipp.franchise.domain.model.meetup.MeetupId;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,32 +8,32 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static net.slipp.franchise.domain.model.recruitment.Status.*;
+import static net.slipp.franchise.domain.model.recruit.Status.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-class RecruitmentFactoryTest {
+class RecruitFactoryTest {
 
-    private RecruitmentFactory dut;
+    private RecruitFactory dut;
 
     @Mock
-    private RecruitmentIdGenerator recruitmentIdGenerator;
+    private RecruitIdGenerator recruitIdGenerator;
     private MeetupId meetupId = MeetupId.of("1");
 
     @BeforeEach
     void setUp() {
-        dut = new RecruitmentFactory(recruitmentIdGenerator);
-        given(recruitmentIdGenerator.gen()).willReturn(RecruitmentId.of("1"));
+        dut = new RecruitFactory(recruitIdGenerator);
+        given(recruitIdGenerator.gen()).willReturn(RecruitId.of("1"));
 
     }
 
     @Test
     @DisplayName("팩토리 테이스")
     void create() {
-        Recruitment actual = dut.create(meetupId);
+        Recruit actual = dut.create(meetupId);
         assertEquals(meetupId, actual.getMeetupId());
-        assertEquals(RecruitmentId.of("1"), actual.getId());
+        assertEquals(RecruitId.of("1"), actual.getId());
         assertEquals(BEGIN, actual.getStatus());
     }
 }
