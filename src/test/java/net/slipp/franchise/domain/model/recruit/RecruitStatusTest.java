@@ -6,16 +6,11 @@
 package net.slipp.franchise.domain.model.recruit;
 
 import com.google.common.collect.Lists;
-import net.slipp.common.domain.model.DomainEvent;
-import net.slipp.common.domain.model.DomainEventPublisher;
+import net.slipp.franchise.domain.model.DomainTestSupport;
 import net.slipp.franchise.domain.model.meetup.MeetupId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
 
 import static net.slipp.franchise.domain.model.recruit.Status.FINISH;
 import static net.slipp.franchise.domain.model.recruit.Status.START;
@@ -24,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@ExtendWith(MockitoExtension.class)
-public class RecruitStatusTest {
+
+public class RecruitStatusTest extends DomainTestSupport {
 
     private RecruitFactory factory;
 
@@ -34,16 +29,16 @@ public class RecruitStatusTest {
     private MeetupId meetupId = MeetupId.of("1");
     private Recruit dut;
 
+    @Override
     @BeforeEach
-    void setUp() {
+    public void setUp() {
 
-        DomainEventPublisher.instance().reset();
+        super.setUp();
 
         given(recruitIdGenerator.gen()).willReturn(RecruitId.of("1"));
         factory = new RecruitFactory(recruitIdGenerator);
         dut = factory.create(meetupId);
     }
-
 
     @Test
     void beginToStart() {
@@ -52,18 +47,6 @@ public class RecruitStatusTest {
         assertEquals(START, dut.getStatus());
     }
 
-    private void expectedEvents(int expectedCount) {
-        assertEquals(expectedCount, DomainEventPublisher.instance().getEventsClass().size());
-    }
-
-    @SafeVarargs
-    private final void expectedEvent(Class<? extends DomainEvent>... anExpectedClass) {
-        List<Class<? extends DomainEvent>> classes = Lists.newArrayList(anExpectedClass);
-        List<Class<? extends DomainEvent>> actual = DomainEventPublisher.instance().getEventsClass();
-        assertEquals(classes, actual.toArray());
-
-//
-    }
 
     @Test
     void startToStart() {
@@ -85,9 +68,9 @@ public class RecruitStatusTest {
         dut.start();
         dut.finish();
         assertEquals(FINISH, dut.getStatus());
-        expectedEvents(3);
 
-        expectedEvent(RecruitCreatedEvent.class,
+        expectedEventInOrder(
+                RecruitCreatedEvent.class,
                 RecruitStatusChangedEvent.class,
                 RecruitStatusChangedEvent.class);
     }
