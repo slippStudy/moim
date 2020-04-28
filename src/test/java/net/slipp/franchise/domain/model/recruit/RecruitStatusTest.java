@@ -5,7 +5,6 @@
 
 package net.slipp.franchise.domain.model.recruit;
 
-import net.slipp.franchise.domain.model.meetup.MeetupId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class RecruitStatusTest extends RecruitCommonTestSupport {
 
 
-    private final MeetupId meetupId = MeetupId.of("1");
     private Recruit dut;
 
     @Override

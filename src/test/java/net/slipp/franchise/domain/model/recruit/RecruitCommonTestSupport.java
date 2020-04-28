@@ -5,7 +5,7 @@ import org.mockito.Mock;
 
 import static org.mockito.BDDMockito.given;
 
-public abstract class RecruitCommonTestSupport extends DomainTestSupport {
+public abstract class RecruitCommonTestSupport extends DomainTestSupport implements RecruitValueObjectSupport{
 
     @Mock
     protected RecruitIdGenerator recruitIdGenerator;
