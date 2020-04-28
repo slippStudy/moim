@@ -11,10 +11,8 @@ public abstract class RecruitCommonTestSupport extends DomainTestSupport impleme
     protected RecruitIdGenerator recruitIdGenerator;
     protected RecruitFactory recruitFactory;
 
-    @Override
     public void setUp() {
 
-        super.setUp();
 
         given(recruitIdGenerator.gen()).willReturn(RecruitId.of("1"));
         recruitFactory = new RecruitFactory(recruitIdGenerator);

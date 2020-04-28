@@ -1,17 +1,14 @@
 package net.slipp.common.domain.model;
 
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public interface DomainEventTestSupport {
-
-
-    default void setUp() {
-        DomainEventPublisher.instance().reset();
-    }
+@ExtendWith(DomainEventResetExtension.class)
+public interface DomainEventTestSupport  {
 
 
     default void expectedEvents(int expectedCount) {
