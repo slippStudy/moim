@@ -5,28 +5,20 @@
 
 package net.slipp.franchise.domain.model.recruit;
 
-import com.google.common.collect.Lists;
-import net.slipp.franchise.domain.model.DomainTestSupport;
 import net.slipp.franchise.domain.model.meetup.MeetupId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import static net.slipp.franchise.domain.model.recruit.Status.FINISH;
 import static net.slipp.franchise.domain.model.recruit.Status.START;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 
-public class RecruitStatusTest extends DomainTestSupport {
+public class RecruitStatusTest extends RecruitCommonTestSupport {
 
-    private RecruitFactory factory;
 
-    @Mock
-    private RecruitIdGenerator recruitIdGenerator;
-    private MeetupId meetupId = MeetupId.of("1");
+    private final MeetupId meetupId = MeetupId.of("1");
     private Recruit dut;
 
     @Override
@@ -35,14 +27,11 @@ public class RecruitStatusTest extends DomainTestSupport {
 
         super.setUp();
 
-        given(recruitIdGenerator.gen()).willReturn(RecruitId.of("1"));
-        factory = new RecruitFactory(recruitIdGenerator);
-        dut = factory.create(meetupId);
+        dut = recruitFactory.create(meetupId);
     }
 
     @Test
     void beginToStart() {
-        initMocks(this);
         dut.start();
         assertEquals(START, dut.getStatus());
     }
@@ -84,10 +73,4 @@ public class RecruitStatusTest extends DomainTestSupport {
         });
     }
 
-    @Test
-    void name() {
-        assertEquals(Lists.newArrayList(RecruitStatusChangedEvent.class, RecruitCreatedEvent.class)
-                , Lists.newArrayList(RecruitStatusChangedEvent.class, RecruitCreatedEvent.class)
-        );
-    }
 }
