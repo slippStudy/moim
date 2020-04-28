@@ -17,6 +17,7 @@ import static net.slipp.franchise.domain.model.recruitment.Status.START;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 @ExtendWith(MockitoExtension.class)
 public class RecruitmentStatusTest {
@@ -38,6 +39,7 @@ public class RecruitmentStatusTest {
 
     @Test
     void beginToStart() {
+        initMocks(this);
         dut.start();
         assertEquals(START, dut.getStatus());
     }
