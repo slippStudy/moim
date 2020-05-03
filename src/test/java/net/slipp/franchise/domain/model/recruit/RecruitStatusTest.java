@@ -5,6 +5,7 @@
 
 package net.slipp.franchise.domain.model.recruit;
 
+import net.slipp.franchise.domain.model.recruit.inqueryitem.InquiryItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,16 +39,12 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
     @Test
     void startToStart() {
         dut.start();
-        assertThrows(IllegalStateException.class, () -> {
-            dut.start();
-        });
+        assertThrows(IllegalStateException.class, () -> dut.start());
     }
 
     @Test
     void beginToFinish() {
-        assertThrows(IllegalStateException.class, () -> {
-            dut.finish();
-        });
+        assertThrows(IllegalStateException.class, () -> dut.finish());
     }
 
     @Test
@@ -66,9 +63,14 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
     void finishToFinish() {
         dut.start();
         dut.finish();
-        assertThrows(IllegalStateException.class, () -> {
-            dut.finish();
-        });
+        assertThrows(IllegalStateException.class, () -> dut.finish());
     }
 
+    @Test
+    void finishToStart() {
+        dut.start();
+        dut.finish();
+
+        assertThrows(IllegalStateException.class, ()-> dut.start());
+    }
 }
