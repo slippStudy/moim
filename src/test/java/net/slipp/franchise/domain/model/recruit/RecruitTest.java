@@ -30,19 +30,20 @@ class RecruitTest extends RecruitCommonTestSupport {
 
 
     @Test
+    @DisplayName("")
     void addInquiryItem() {
 
         assertTrue(dut.allInquiryItems().isEmpty());
 
-        assertThrows(IllegalArgumentException.class , () -> dut.addInquiryItem(null));
+//        assertThrows(IllegalArgumentException.class, () -> dut.addInquiryItem(null));
 
-        dut.addInquiryItem(inquiryItem());
+//        dut.addInquiryItem(inquiryItem());
 
-        assertEquals(1, dut.allInquiryItems().size());
+//        assertEquals(1, dut.allInquiryItems().size());
 
-        dut.start();
+//        dut.start();
 
-        assertThrows(IllegalStateException.class, () ->dut.addInquiryItem(inquiryItem()));
+//        assertThrows(IllegalStateException.class, () -> dut.addInquiryItem(inquiryItem()));
     }
 
 }

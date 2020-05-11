@@ -33,6 +33,9 @@ public class Recruit {
 
     private Set<InquiryItem> inquiryItems;
 
+    private Recruit() {
+        this.setInquiryItems(Sets.newHashSet());
+    }
 
     Recruit(RecruitId id, MeetupId meetupId, Status status) {
         this();
@@ -68,10 +71,6 @@ public class Recruit {
         setStatus(FINISH);
     }
 
-    private Recruit() {
-        this.setInquiryItems(Sets.newHashSet());
-    }
-
     private Set<InquiryItem> inquiryItems() {
         return inquiryItems;
     }
@@ -84,6 +83,4 @@ public class Recruit {
         this.status = status;
         DomainEventPublisher.instance().publish(new RecruitStatusChangedEvent());
     }
-
-
 }
