@@ -33,7 +33,7 @@ public class RecruitFactory {
         Validator validator = validatorFactory.getValidator();
         validator.validate(recruit);
 
-        DomainEventPublisher.instance().publish(new RecruitCreatedEvent());
+        DomainEventPublisher.instance().publish(new RecruitCreatedEvent(id));
         return recruit;
     }
 }

@@ -10,8 +10,19 @@ import net.slipp.common.domain.model.DomainEvent;
 import java.time.LocalDateTime;
 
 public class RecruitCreatedEvent implements DomainEvent {
+
+    private final RecruitId recruitId;
+
+    public RecruitCreatedEvent(RecruitId recruitId) {
+        this.recruitId = recruitId;
+    }
+
     @Override
     public LocalDateTime occurredOn() {
         return LocalDateTime.now();
+    }
+
+    public RecruitId getRecruitId() {
+        return this.recruitId;
     }
 }

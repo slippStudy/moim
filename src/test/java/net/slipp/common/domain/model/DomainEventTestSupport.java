@@ -36,4 +36,14 @@ public interface DomainEventTestSupport  {
             assertEquals(anExpectedClassList.get(i), actual.get(i));
         }
     }
+
+    default <T extends DomainEvent> T domainEvent(Class<T> aClass) {
+
+        List<DomainEvent> actual = DomainEventPublisher.instance().allEvents();
+
+        return (T) actual.stream().filter(it -> it.getClass().equals(aClass)).findFirst().orElse(null);
+
+    }
+
+
 }

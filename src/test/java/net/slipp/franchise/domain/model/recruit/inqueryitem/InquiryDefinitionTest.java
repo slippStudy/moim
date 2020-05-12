@@ -2,12 +2,12 @@ package net.slipp.franchise.domain.model.recruit.inqueryitem;
 
 import org.junit.jupiter.api.Test;
 
-class InquiryItemTest {
+class InquiryDefinitionTest {
 
 
     @Test
     void name() {
         //TODO  테스트
-        InquiryItem inquiryItem = new InquiryItem();
+//        InquiryDefinition inquiryDefinition = new InquiryDefinition();
     }
 }

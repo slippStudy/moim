@@ -10,7 +10,7 @@ import lombok.Getter;
 import net.slipp.common.Assertions;
 import net.slipp.common.domain.model.DomainEventPublisher;
 import net.slipp.franchise.domain.model.meetup.MeetupId;
-import net.slipp.franchise.domain.model.recruit.inqueryitem.InquiryItem;
+import net.slipp.franchise.domain.model.recruit.inqueryitem.InquiryDefinition;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
@@ -31,7 +31,7 @@ public class Recruit {
     @NotNull
     private Status status;
 
-    private Set<InquiryItem> inquiryItems;
+    private Set<InquiryDefinition> inquiryDefinitions;
 
 
     Recruit(RecruitId id, MeetupId meetupId, Status status) {
@@ -42,14 +42,14 @@ public class Recruit {
         this.status = status;
     }
 
-    public void addInquiryItem(InquiryItem anInquiryItem) {
-        Assertions.assertArgumentNotNull(anInquiryItem, "반드시 InquiryItem 는 존재 합니다.");
+    public void addInquiryDefinition(InquiryDefinition anInquiryDefinition) {
+        Assertions.assertArgumentNotNull(anInquiryDefinition, "반드시 InquiryItem 는 존재 합니다.");
         Assertions.assertStateTrue(BEGIN == getStatus(), "BEGIN 단계 에 서만 질의문을 추가 가능합니다.");
 
-        inquiryItems().add(anInquiryItem);
+        inquiryItems().add(anInquiryDefinition);
     }
 
-    public Set<InquiryItem> allInquiryItems() {
+    public Set<InquiryDefinition> allInquiryDefinitions() {
         return Collections.unmodifiableSet(this.inquiryItems());
     }
 
@@ -69,20 +69,20 @@ public class Recruit {
     }
 
     private Recruit() {
-        this.setInquiryItems(Sets.newHashSet());
+        this.setInquiryDefinitions(Sets.newHashSet());
     }
 
-    private Set<InquiryItem> inquiryItems() {
-        return inquiryItems;
+    private Set<InquiryDefinition> inquiryItems() {
+        return inquiryDefinitions;
     }
 
-    private void setInquiryItems(HashSet<InquiryItem> inquiryItems) {
-        this.inquiryItems = inquiryItems;
+    private void setInquiryDefinitions(HashSet<InquiryDefinition> inquiryDefinitions) {
+        this.inquiryDefinitions = inquiryDefinitions;
     }
 
     private void setStatus(@NotNull final Status status) {
         this.status = status;
-        DomainEventPublisher.instance().publish(new RecruitStatusChangedEvent());
+        DomainEventPublisher.instance().publish(new RecruitStatusChangedEvent(this.id, this.status));
     }
 
 

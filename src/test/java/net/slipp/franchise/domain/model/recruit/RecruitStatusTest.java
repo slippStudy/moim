@@ -5,7 +5,6 @@
 
 package net.slipp.franchise.domain.model.recruit;
 
-import net.slipp.franchise.domain.model.recruit.inqueryitem.InquiryItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,14 +26,23 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
         super.setUp();
 
         dut = recruitFactory.create(meetupId);
+
+        expectedEvents(1);
     }
 
     @Test
     void beginToStart() {
         dut.start();
         assertEquals(START, dut.getStatus());
+        expectedEventInOrder(
+            RecruitCreatedEvent.class,
+            RecruitStatusChangedEvent.class
+        );
+//        expectedPropertyInDomainEvent(RecruitCreatedEvent.class, "");
+        assertEquals(dut.getId(), domainEvent(RecruitCreatedEvent.class).getRecruitId());
+        assertEquals(dut.getId(), domainEvent(RecruitStatusChangedEvent.class).getRecruitId());
+        assertEquals(dut.getStatus(), domainEvent(RecruitStatusChangedEvent.class).getStatus());
     }
-
 
     @Test
     void startToStart() {

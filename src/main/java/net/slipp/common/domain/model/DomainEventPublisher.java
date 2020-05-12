@@ -24,10 +24,13 @@ public class DomainEventPublisher {
         events.add(aDomainEvent);
     }
 
-
     public List<Class<? extends DomainEvent>> getEventsClass() {
 
         return events.stream().map(DomainEvent::getClass).collect(toList());
+    }
+
+    public List<DomainEvent> allEvents() {
+        return events;
     }
 
     public void reset() {

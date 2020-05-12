@@ -32,17 +32,21 @@ class RecruitTest extends RecruitCommonTestSupport {
     @Test
     void addInquiryItem() {
 
-        assertTrue(dut.allInquiryItems().isEmpty());
+        assertTrue(dut.allInquiryDefinitions().isEmpty());
 
-        assertThrows(IllegalArgumentException.class , () -> dut.addInquiryItem(null));
+        assertThrows(IllegalArgumentException.class , () -> dut.addInquiryDefinition(null));
 
-        dut.addInquiryItem(inquiryItem());
+        dut.addInquiryDefinition(anyInquiryDefinition());
 
-        assertEquals(1, dut.allInquiryItems().size());
+        assertEquals(1, dut.allInquiryDefinitions().size());
 
         dut.start();
 
-        assertThrows(IllegalStateException.class, () ->dut.addInquiryItem(inquiryItem()));
+        expectedEventInOrder(
+            RecruitCreatedEvent.class,
+            RecruitStatusChangedEvent.class);
+
+        assertThrows(IllegalStateException.class, () -> dut.addInquiryDefinition(anyInquiryDefinition()));
     }
 
 }

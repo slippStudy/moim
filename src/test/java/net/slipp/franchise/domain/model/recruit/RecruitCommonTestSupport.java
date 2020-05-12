@@ -1,7 +1,7 @@
 package net.slipp.franchise.domain.model.recruit;
 
 import net.slipp.franchise.domain.model.DomainTestSupport;
-import net.slipp.franchise.domain.model.recruit.inqueryitem.InquiryItem;
+import net.slipp.franchise.domain.model.recruit.inqueryitem.InquiryDefinition;
 import org.mockito.Mock;
 
 import static org.mockito.BDDMockito.given;
@@ -22,7 +22,7 @@ public abstract class RecruitCommonTestSupport extends DomainTestSupport impleme
         return recruitFactory.create(meetupId);
     }
 
-    protected InquiryItem inquiryItem() {
-        return new InquiryItem();
+    protected InquiryDefinition anyInquiryDefinition() {
+        return new InquiryDefinition("너 몇살이니?", true);
     }
 }
