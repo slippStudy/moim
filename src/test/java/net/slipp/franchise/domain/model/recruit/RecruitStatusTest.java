@@ -25,7 +25,7 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
 
         super.setUp();
 
-        dut = recruitFactory.create(meetupId);
+        dut = testRecruit();
 
         expectedEvents(1);
     }
@@ -38,7 +38,6 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
             RecruitCreatedEvent.class,
             RecruitStatusChangedEvent.class
         );
-//        expectedPropertyInDomainEvent(RecruitCreatedEvent.class, "");
         assertEquals(dut.getId(), domainEvent(RecruitCreatedEvent.class).getRecruitId());
         assertEquals(dut.getId(), domainEvent(RecruitStatusChangedEvent.class).getRecruitId());
         assertEquals(dut.getStatus(), domainEvent(RecruitStatusChangedEvent.class).getStatus());

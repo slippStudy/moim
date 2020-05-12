@@ -9,9 +9,10 @@ import com.google.common.collect.Sets;
 import lombok.Getter;
 import net.slipp.common.Assertions;
 import net.slipp.common.domain.model.DomainEventPublisher;
-import net.slipp.franchise.domain.model.meetup.MeetupId;
-import net.slipp.franchise.domain.model.recruit.inqueryitem.InquiryDefinition;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,20 +27,21 @@ public class Recruit {
     private RecruitId id;
 
     @NotNull
-    private MeetupId meetupId;
-
-    @NotNull
     private Status status;
 
     private Set<InquiryDefinition> inquiryDefinitions;
 
 
-    Recruit(RecruitId id, MeetupId meetupId, Status status) {
-        this();
-
+    public Recruit(RecruitId id) {
         this.id = id;
-        this.meetupId = meetupId;
-        this.status = status;
+        this.status = BEGIN;
+        this.setInquiryDefinitions(Sets.newHashSet());
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        validator.validate(this);
+
+        DomainEventPublisher.instance().publish(new RecruitCreatedEvent(id));
     }
 
     public void addInquiryDefinition(InquiryDefinition anInquiryDefinition) {
@@ -66,10 +68,6 @@ public class Recruit {
             throw new IllegalStateException();
         }
         setStatus(FINISH);
-    }
-
-    private Recruit() {
-        this.setInquiryDefinitions(Sets.newHashSet());
     }
 
     private Set<InquiryDefinition> inquiryItems() {

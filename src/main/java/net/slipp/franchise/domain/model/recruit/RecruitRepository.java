@@ -7,5 +7,7 @@ package net.slipp.franchise.domain.model.recruit;
 
 public interface RecruitRepository {
 
-    Recruit save(Recruit recruit);
+    RecruitId nextId();
+
+    void save(Recruit recruit);
 }

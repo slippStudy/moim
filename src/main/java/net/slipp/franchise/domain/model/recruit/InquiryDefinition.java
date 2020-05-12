@@ -1,4 +1,4 @@
-package net.slipp.franchise.domain.model.recruit.inqueryitem;
+package net.slipp.franchise.domain.model.recruit;
 
 import lombok.Getter;
 

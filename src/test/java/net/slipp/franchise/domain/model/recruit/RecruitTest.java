@@ -21,7 +21,6 @@ class RecruitTest extends RecruitCommonTestSupport {
     @Test
     @DisplayName("팩토리 테스트")
     void create() {
-        assertEquals(meetupId, dut.getMeetupId());
         assertEquals(recruitId, dut.getId());
         assertEquals(BEGIN, dut.getStatus());
 
