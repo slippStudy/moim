@@ -33,14 +33,14 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
     @Test
     void beginToStart() {
         dut.start();
-        assertEquals(START, dut.getStatus());
+        assertEquals(START, dut.status());
         expectedEventInOrder(
             RecruitCreatedEvent.class,
             RecruitStatusChangedEvent.class
         );
-        assertEquals(dut.getId(), domainEvent(RecruitCreatedEvent.class).getRecruitId());
-        assertEquals(dut.getId(), domainEvent(RecruitStatusChangedEvent.class).getRecruitId());
-        assertEquals(dut.getStatus(), domainEvent(RecruitStatusChangedEvent.class).getStatus());
+        assertEquals(dut.id(), domainEvent(RecruitCreatedEvent.class).getRecruitId());
+        assertEquals(dut.id(), domainEvent(RecruitStatusChangedEvent.class).getRecruitId());
+        assertEquals(dut.status(), domainEvent(RecruitStatusChangedEvent.class).getStatus());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
     void finish() {
         dut.start();
         dut.finish();
-        assertEquals(FINISH, dut.getStatus());
+        assertEquals(FINISH, dut.status());
 
         expectedEventInOrder(
                 RecruitCreatedEvent.class,

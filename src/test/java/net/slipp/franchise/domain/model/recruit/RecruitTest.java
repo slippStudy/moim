@@ -1,36 +1,38 @@
 package net.slipp.franchise.domain.model.recruit;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static net.slipp.franchise.domain.model.recruit.Recruit.Recruit;
 import static net.slipp.franchise.domain.model.recruit.Status.BEGIN;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RecruitTest extends RecruitCommonTestSupport {
 
-    Recruit dut;
-
-
-    @BeforeEach
-    void setUp() {
-        super.setUp();
-        dut = testRecruit();
-    }
-
     @Test
-    @DisplayName("팩토리 테스트")
+    @DisplayName("기본 생성자")
     void create() {
-        assertEquals(recruitId, dut.getId());
-        assertEquals(BEGIN, dut.getStatus());
+
+        assertThrows(IllegalStateException.class, () -> Recruit(null));
+
+        Recruit recruit = Recruit(recruitId);
+
+        assertEquals(recruitId, recruit.id());
+        assertEquals(Title.UNTITLED, recruit.title());
+        assertEquals(Content.NO_CONTENT, recruit.content());
+        assertEquals(BEGIN, recruit.status());
+        assertTrue(recruit.allInquiryDefinitions().isEmpty());
 
         expectedEventInOrder(RecruitCreatedEvent.class);
+        assertEquals(recruit.id(), domainEvent(RecruitCreatedEvent.class).getRecruitId());
+
     }
 
 
     @Test
     void addInquiryItem() {
 
+        Recruit dut = testRecruit();
         assertTrue(dut.allInquiryDefinitions().isEmpty());
 
         assertThrows(IllegalArgumentException.class , () -> dut.addInquiryDefinition(null));
