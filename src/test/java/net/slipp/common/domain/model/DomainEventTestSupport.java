@@ -1,40 +1,22 @@
 package net.slipp.common.domain.model;
 
-import com.google.common.collect.Lists;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(DomainEventResetExtension.class)
-public interface DomainEventTestSupport  {
+public interface DomainEventTestSupport {
 
 
     default void expectedEvents(int expectedCount) {
-        assertEquals(expectedCount, DomainEventPublisher.instance().getEventsClass().size());
+        assertThat(DomainEventPublisher.instance().getEventsClass()).hasSize(expectedCount);
     }
 
-    default  void expectedEventInOrder(Class<? extends DomainEvent> anExpectedClass) {
-        expectedEventInOrder(Lists.newArrayList(anExpectedClass));
-    }
+    default void expectedEventInOrder(Class<? extends DomainEvent>... anExpectedClass) {
+        assertThat(DomainEventPublisher.instance().getEventsClass()).containsExactly(anExpectedClass);
 
-    default  void expectedEventInOrder(Class<? extends DomainEvent> anExpectedClass1,Class<? extends DomainEvent> anExpectedClass2) {
-        expectedEventInOrder(Lists.newArrayList(anExpectedClass1, anExpectedClass2));
-    }
-
-    default  void expectedEventInOrder(Class<? extends DomainEvent> anExpectedClass1,Class<? extends DomainEvent> anExpectedClass2,Class<? extends DomainEvent> anExpectedClass3) {
-        expectedEventInOrder(Lists.newArrayList(anExpectedClass1, anExpectedClass2, anExpectedClass3));
-    }
-
-    default  void expectedEventInOrder(List<Class<? extends DomainEvent>> anExpectedClassList) {
-        expectedEvents(anExpectedClassList.size());
-
-        List<Class<? extends DomainEvent>> actual = DomainEventPublisher.instance().getEventsClass();
-
-        for (int i = 0; i < anExpectedClassList.size(); i++) {
-            assertEquals(anExpectedClassList.get(i), actual.get(i));
-        }
     }
 
     default <T extends DomainEvent> T domainEvent(Class<T> aClass) {
