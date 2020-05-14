@@ -3,6 +3,7 @@ plugins {
     id "org.springframework.boot" version "2.2.2.RELEASE"
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id "io.freefair.lombok" version "5.0.0"
+    id 'java-library'
 }
 
 
@@ -22,6 +23,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
+    testImplementation 'com.tngtech.archunit:archunit-junit5:0.13.1'
 
 }
 
