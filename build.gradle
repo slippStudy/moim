@@ -33,3 +33,4 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+cobertura.coverageFormats = ['html', 'xml'] // coveralls plugin depends on xml format report
