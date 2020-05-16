@@ -22,4 +22,4 @@ notifications:
 script: ./gradlew clean build
 
 after_success:
-  - npm run coveralls
+  - ./gradlew cobertura coveralls
