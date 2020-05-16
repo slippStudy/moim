@@ -5,7 +5,7 @@ jdk:
 branches:
   only:
     - master
-    - travis
+    - recruitmanage
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -14,5 +14,9 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-
+notifications:
+  email:
+    - dev4hkpking@gmail.com
+    - ywsaau77@gmail.com
+    - joenggyu0@gmail.com
 script: ./gradlew clean build
