@@ -1,0 +1,225 @@
+swagger: "2.0"
+info:
+  description: "누구든지 스터디를 만들고 자신이 원하는 스터디에 참여할 수 있다. "
+  version: "1.0.0"
+  title: "Franchise"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "joenggyu0@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "franchise"
+basePath: "/v1"
+tags:
+  - name: "franchise"
+    description: "누구든지 스터디를 만들고 자신이 원하는 스터디에 참여할 수 있다. "
+    externalDocs:
+      description: "Find out more"
+      url: "http://swagger.io"
+schemes:
+  - "http"
+paths:
+  /recruit/create:
+    post:
+      tags:
+        - "recruit"
+      summary: "create a new recruit to the world"
+      operationId: "createRecruit"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Recruit object that needs to be added"
+          required: true
+          schema:
+            type: object
+            $ref: "#/definitions/RecruitCreateModel"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RecruitModel"
+        "400":
+          description: "Invalid Order"
+  /recruit/{recruitId}/start:
+    put:
+      tags:
+        - "recruit"
+      summary: "Starts Recruit by commend"
+      operationId: "startRecruit"
+      description: "change recruit status to start"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "recruitId"
+          in: "path"
+          type: string
+          description: "recruitId"
+          required: true
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              type: object
+              $ref: "#/definitions/RecruitModel"
+        "400":
+          description: "Invalid status value"
+  /recruit/{recruitId}/finish:
+    put:
+      tags:
+        - "recruit"
+      summary: "finish Recruit by commend"
+      operationId: "finishRecruit"
+      description: "change recruit status to finish"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "recruitId"
+          in: "path"
+          description: "recruitId"
+          required: true
+          type: string
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/definitions/RecruitModel"
+        "400":
+          description: "Invalid status value"
+  /recruit/{recruitId}/inquiries:
+    put:
+      tags:
+        - "recruit"
+      summary: "add inquiries on recruit"
+      operationId: "addInquiriesToRecruit"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "recruitId"
+          description: "RecruitId is identity of Recruit "
+          required: true
+          type: string
+        - in: "body"
+          name: "body"
+          description: "List of inquiries object"
+          required: true
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/InquiryModel"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RecruitModel"
+        "400":
+          description: "Invalid Order"
+  /recruit/{recruitId}/update:
+    put:
+      tags:
+        - "recruit"
+      summary: "update recruit"
+      operationId: "updateRecruitContents"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "recruitId"
+          description: "RecruitId is identity of Recruit "
+          required: true
+          type: string
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/RecruitUpdateModel"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RecruitModel"
+        "400":
+          description: "Invalid Order"
+securityDefinitions:
+definitions:
+  RecruitModel:
+    type: object
+    additionalProperties: true
+    properties:
+      recruitId:
+        type: string
+      creatorEmail:
+        type: string
+      title:
+        type: string
+      recruitContents:
+        type: string
+      deadlineDate:
+        type: string
+        format: date-time
+      inquries:
+        type: array
+        items:
+          $ref: "#/definitions/InquiryModel"
+      status:
+        type: string
+        description: "Order Status"
+        enum:
+          - "START"
+          - "BEGIN"
+          - "FINISH"
+    xml:
+      name: "Recruit"
+  InquiryModel:
+    type: object
+    properties:
+      creatorEmail:
+        type: string
+      question:
+        type: string
+      required:
+        type: boolean
+  RecruitCreateModel:
+    type: object
+    properties:
+      creatorEmail:
+        type: string
+      title:
+        type: string
+      contents:
+        type: string
+      deadlineDate:
+        type: string
+        format: date-time
+  RecruitUpdateModel:
+    type: object
+    properties:
+      creatorEmail:
+        type: string
+      title:
+        type: string
+      contents:
+        type: string
+      deadlineDate:
+        type: string
+        format: date-time
+    xml:
+      name: "Recruit"

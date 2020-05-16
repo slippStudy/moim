@@ -7,3 +7,5 @@ build
 .idea
 out
 out/**
+
+src/generated/*

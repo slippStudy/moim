@@ -3,6 +3,8 @@ plugins {
     id "org.springframework.boot" version "2.2.2.RELEASE"
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id "io.freefair.lombok" version "5.0.0"
+
+    id 'org.hidetake.swagger.generator' version '2.18.2'
 }
 
 
@@ -18,6 +20,11 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     implementation group: 'com.google.guava', name: 'guava', version: '29.0-jre'
 
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.1'
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
+    swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'
+    swaggerUI 'org.webjars:swagger-ui:3.10.0'
+
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -26,6 +33,16 @@ dependencies {
 
 }
 
+swaggerSources {
+    franchise {
+        inputFile = file('franchise-swagger.yaml')
+        code {
+            language = 'spring'
+            components = ['api']
+            outputDir= file("$rootDir/src/generated/swagger")
+        }
+    }
+}
 
 test {
     useJUnitPlatform()
