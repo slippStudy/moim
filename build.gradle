@@ -4,7 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id "io.freefair.lombok" version "5.0.0"
     id 'java-library'
-    id "net.saliman.cobertura" version "3.0.0"
+    id "jacoco"
     id "com.github.kt3k.coveralls" version "2.10.1"
 }
 
@@ -33,4 +33,10 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-cobertura.coverageFormats = ['html', 'xml'] // coveralls plugin depends on xml format report
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+}
