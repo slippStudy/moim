@@ -20,3 +20,6 @@ notifications:
     - ywsaau77@gmail.com
     - joenggyu0@gmail.com
 script: ./gradlew clean build
+
+after_success:
+  - npm run coveralls
