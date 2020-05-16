@@ -21,8 +21,6 @@ dependencies {
     implementation group: 'com.google.guava', name: 'guava', version: '29.0-jre'
 
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.1'
-    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
-    swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'
     swaggerUI 'org.webjars:swagger-ui:3.10.0'
 
 
