@@ -1,0 +1,14 @@
+{
+  "groupId":"net.slipp",
+  "artifactId":"franchise",
+  "library": "spring-boot",
+  "dataLibrary": "java8",
+  "java8": true,
+
+  "sourceFolder": "swagger",
+  "modelPackage": "net.slipp.franchise.models",
+  "apiPackage": "net.slipp.franchise.apis",
+  "title": "franchise",
+  "useOptional": true,
+  "hideGenerationTimestamp":true
+}

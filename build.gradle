@@ -21,14 +21,10 @@ dependencies {
     implementation group: 'com.google.guava', name: 'guava', version: '29.0-jre'
 
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.1'
-    swaggerUI 'org.webjars:swagger-ui:3.10.0'
-
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-
-
 }
 
 swaggerSources {
@@ -36,11 +32,18 @@ swaggerSources {
         inputFile = file('franchise-swagger.yaml')
         code {
             language = 'spring'
-            components = ['api']
+            components = ['models', 'apis']
+            configFile = file("$rootDir/franchise-config.json")
             outputDir= file("$rootDir/src/generated/swagger")
+
+            dependsOn validation
         }
     }
 }
+
+compileJava.dependsOn swaggerSources.franchise.code
+sourceSets.main.java.srcDir "${swaggerSources.franchise.code.outputDir}/src/main/java"
+sourceSets.main.resources.srcDir "${swaggerSources.franchise.code.outputDir}/src/main/resources"
 
 test {
     useJUnitPlatform()

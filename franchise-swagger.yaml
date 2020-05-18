@@ -158,7 +158,6 @@ paths:
             $ref: "#/definitions/RecruitModel"
         "400":
           description: "Invalid Order"
-securityDefinitions:
 definitions:
   RecruitModel:
     type: object
