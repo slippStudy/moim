@@ -14,7 +14,7 @@
 
 package net.slipp.common;
 
-public final class AAAAAssertions {
+public final class Assertions {
 
     private Assertions() {
         super();
