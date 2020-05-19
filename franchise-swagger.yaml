@@ -13,10 +13,10 @@ host: "franchise"
 basePath: "/v1"
 tags:
   - name: "franchise"
-    description: "누구든지 스터디를 만들고 자신이 원하는 스터디에 참여할 수 있다. "
+    description: "누구든지 스터디를 만들고 자신이 원하는 스터디에 참여할 수 있다."
     externalDocs:
       description: "Find out more"
-      url: "http://swagger.io"
+      url: "https://github.com/slippStudy/franchise"
 schemes:
   - "http"
 paths:
