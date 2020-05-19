@@ -67,9 +67,7 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            items:
-              type: object
-              $ref: "#/definitions/RecruitModel"
+            $ref: "#/definitions/RecruitModel"
         "400":
           description: "Invalid status value"
   /recruit/{recruitId}/finish:
@@ -93,8 +91,8 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            items:
-              $ref: "#/definitions/RecruitModel"
+            type: object
+            $ref: "#/definitions/RecruitModel"
         "400":
           description: "Invalid status value"
   /recruit/{recruitId}/inquiries:
