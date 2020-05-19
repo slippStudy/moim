@@ -35,7 +35,8 @@ swaggerSources {
             language = 'spring'
             components = ['models', 'apis']
             configFile = file("$rootDir/franchise-config.json")
-            outputDir= file("$rootDir/src/generated/")
+            outputDir = file("$rootDir/src/generated/")
+            wipeOutputDir = false
 
             dependsOn validation
         }

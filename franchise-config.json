@@ -7,7 +7,7 @@
   "apiPackage": "net.slipp.franchise.apis",
 
   "library": "spring-boot",
-  "dataLibrary": "java8",
+  "dateLibrary": "java8",
 
   "interfaceOnly" : true,
   "hideGenerationTimestamp":true
