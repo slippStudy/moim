@@ -1,25 +1,24 @@
 language: java
 jdk:
-  - openjdk8
-
+- openjdk8
 branches:
   only:
-    - master
-    - recruitmanage
-
+  - master
+  - recruitmanage
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 notifications:
   email:
-    - dev4hkpking@gmail.com
-    - ywsaau77@gmail.com
-    - joenggyu0@gmail.com
-script: ./gradlew clean build
-
+  - dev4hkpking@gmail.com
+  - ywsaau77@gmail.com
+  - joenggyu0@gmail.com
+  slack:
+    secure: GxgUfV+AOgzsPmXNpwIwiJztlBxaYMkyqxaBjUzgwGUC5s4OdYL9e6jgBfjLeR5RCSFbvS80rCd/sIpsfH/E4jZzH5KjkYm0t/cFh/xo/yfAJzI++P5XWBmQpgrxG9LdF0UfVf3JwJ6PaBRGrCfoRwvh4Pmk+fVYj3ajZZQme0Y/ZnzZst/3xJlz1jf5s1k5s1QmqbMZM5UFHW5rQ7IY0IloOqTfuJOpanHaTQptWvsX9r7ellUhtNHsmVddloII2lZ3LrPWcq+1g+ZDMTNx4LjyuNbBd0Jz9Cdv3SWfeoHUPbvp9Osukfg8JAjVKn9hisiAke3cxur598lP3Vr2hKWXDuRHrOKr8V14FMu7s7dsoVf7pAaKSVl9kUoWOkw6mPj8SDXxJFjwPOTQDSDm/m/VYx7oNEMGUh9wzfZl6vHvoKYTL24wNGkiKA26iOsPmCN9mzZe7DrhXQepyv2qPaiFvWrZ3//DiYhkleP3TbQrNF2o6XtcPcjn72PGZ3lopqJDvnvCIeDVg7CJLOCLoo8JvnDBlvE7opK9eh/IAMzXNvyOHTSGh8pnUTMaP3flPO0/3nupPXhu+H5sCIcoiJneV42+0Ag4IYSNrBOT4duYdKHJCQxXVxkISfITdKUhnXsOMVZJ0FTyBrO/uNc4w63SExuZ7F+sr2UFAeNkwLM=
+script: "./gradlew clean build"
 after_success:
-  - ./gradlew jacocoTestReport coveralls
+- "./gradlew jacocoTestReport coveralls"
