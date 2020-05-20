@@ -20,10 +20,10 @@ tags:
 schemes:
   - "http"
 paths:
-  /recruit/create:
+  /recruits:
     post:
       tags:
-        - "recruit"
+        - "recruits"
       summary: "create a new recruit to the world"
       operationId: "createRecruit"
       description: ""
@@ -37,7 +37,6 @@ paths:
           description: "Recruit object that needs to be added"
           required: true
           schema:
-            type: object
             $ref: "#/definitions/RecruitCreateModel"
       responses:
         "200":
@@ -46,61 +45,12 @@ paths:
             $ref: "#/definitions/RecruitModel"
         "400":
           description: "Invalid Order"
-  /recruit/{recruitId}/start:
+  /recruits/{recruitId}:
     put:
       tags:
-        - "recruit"
-      summary: "Starts Recruit by commend"
-      operationId: "startRecruit"
-      description: "change recruit status to start"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "recruitId"
-          in: "path"
-          type: string
-          description: "recruitId"
-          required: true
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/RecruitModel"
-        "400":
-          description: "Invalid status value"
-  /recruit/{recruitId}/finish:
-    put:
-      tags:
-        - "recruit"
-      summary: "finish Recruit by commend"
-      operationId: "finishRecruit"
-      description: "change recruit status to finish"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "recruitId"
-          in: "path"
-          description: "recruitId"
-          required: true
-          type: string
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            type: object
-            $ref: "#/definitions/RecruitModel"
-        "400":
-          description: "Invalid status value"
-  /recruit/{recruitId}/inquiries:
-    put:
-      tags:
-        - "recruit"
-      summary: "add inquiries on recruit"
-      operationId: "addInquiriesToRecruit"
+        - "recruits"
+      summary: "update recruit"
+      operationId: "updateRecruitContents"
       description: ""
       consumes:
         - "application/json"
@@ -114,12 +64,9 @@ paths:
           type: string
         - in: "body"
           name: "body"
-          description: "List of inquiries object"
           required: true
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/InquiryModel"
+            $ref: "#/definitions/RecruitUpdateModel"
       responses:
         "200":
           description: "successful operation"
@@ -127,12 +74,11 @@ paths:
             $ref: "#/definitions/RecruitModel"
         "400":
           description: "Invalid Order"
-  /recruit/{recruitId}/update:
-    put:
+    get:
       tags:
-        - "recruit"
-      summary: "update recruit"
-      operationId: "updateRecruitContents"
+        - "recruits"
+      summary: get Recurit
+      operationId: "getRecruit"
       description: ""
       consumes:
         - "application/json"
@@ -142,6 +88,34 @@ paths:
         - in: "path"
           name: "recruitId"
           description: "RecruitId is identity of Recruit "
+          required: true
+          type: string
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/RecruitUpdateModel"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RecruitModel"
+
+  /recruits/{recruitId}/status:
+    put:
+      tags:
+        - "recruits"
+      summary: "status change recruit"
+      operationId: "statusChange"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "recruitId"
+          description: "can change status by recruitId "
           required: true
           type: string
         - in: "body"
