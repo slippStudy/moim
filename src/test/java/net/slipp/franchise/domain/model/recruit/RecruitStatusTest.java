@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import static net.slipp.franchise.domain.model.recruit.Status.FINISH;
 import static net.slipp.franchise.domain.model.recruit.Status.START;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 
 public class RecruitStatusTest extends RecruitCommonTestSupport {
@@ -33,32 +33,32 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
     @Test
     void beginToStart() {
         dut.start();
-        assertEquals(START, dut.getStatus());
+        assertThat(dut.status()).isEqualTo(START);
         expectedEventInOrder(
             RecruitCreatedEvent.class,
             RecruitStatusChangedEvent.class
         );
-        assertEquals(dut.getId(), domainEvent(RecruitCreatedEvent.class).getRecruitId());
-        assertEquals(dut.getId(), domainEvent(RecruitStatusChangedEvent.class).getRecruitId());
-        assertEquals(dut.getStatus(), domainEvent(RecruitStatusChangedEvent.class).getStatus());
+        assertThat(domainEvent(RecruitCreatedEvent.class).getRecruitId()).isEqualTo(dut.id());
+        assertThat(domainEvent(RecruitStatusChangedEvent.class).getRecruitId()).isEqualTo(dut.id());
+        assertThat(domainEvent(RecruitStatusChangedEvent.class).getStatus()).isEqualTo(dut.status());
     }
 
     @Test
     void startToStart() {
         dut.start();
-        assertThrows(IllegalStateException.class, () -> dut.start());
+        assertThatIllegalStateException().isThrownBy(() -> dut.start());
     }
 
     @Test
     void beginToFinish() {
-        assertThrows(IllegalStateException.class, () -> dut.finish());
+        assertThatIllegalStateException().isThrownBy(() -> dut.finish());
     }
 
     @Test
     void finish() {
         dut.start();
         dut.finish();
-        assertEquals(FINISH, dut.getStatus());
+        assertThat(dut.status()).isEqualTo(FINISH);
 
         expectedEventInOrder(
                 RecruitCreatedEvent.class,
@@ -70,7 +70,7 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
     void finishToFinish() {
         dut.start();
         dut.finish();
-        assertThrows(IllegalStateException.class, () -> dut.finish());
+        assertThatIllegalStateException().isThrownBy(() -> dut.finish());
     }
 
     @Test
@@ -78,6 +78,6 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
         dut.start();
         dut.finish();
 
-        assertThrows(IllegalStateException.class, ()-> dut.start());
+        assertThatIllegalStateException().isThrownBy(() -> dut.start());
     }
 }

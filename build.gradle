@@ -4,6 +4,10 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id "io.freefair.lombok" version "5.0.0"
 
+    id 'java-library'
+    id "jacoco"
+    id "com.github.kt3k.coveralls" version "2.10.1"
+
     id 'org.hidetake.swagger.generator' version '2.18.2'
 }
 
@@ -13,7 +17,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:28.0-jre'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.projectlombok:lombok'
@@ -26,7 +29,10 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+
+    testImplementation 'com.tngtech.archunit:archunit-junit5:0.13.1'
 }
+
 
 swaggerSources {
     franchise {
@@ -49,4 +55,11 @@ sourceSets.main.resources.srcDir "${swaggerSources.franchise.code.outputDir}/src
 
 test {
     useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
 }

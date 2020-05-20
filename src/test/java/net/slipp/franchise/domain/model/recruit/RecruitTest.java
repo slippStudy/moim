@@ -1,43 +1,49 @@
 package net.slipp.franchise.domain.model.recruit;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static net.slipp.franchise.domain.model.recruit.Content.NO_CONTENT;
+import static net.slipp.franchise.domain.model.recruit.Recruit.Recruit;
 import static net.slipp.franchise.domain.model.recruit.Status.BEGIN;
-import static org.junit.jupiter.api.Assertions.*;
+import static net.slipp.franchise.domain.model.recruit.Title.UNTITLED;
+import static org.assertj.core.api.Assertions.*;
 
 class RecruitTest extends RecruitCommonTestSupport {
 
-    Recruit dut;
-
-
-    @BeforeEach
-    void setUp() {
-        super.setUp();
-        dut = testRecruit();
-    }
-
     @Test
-    @DisplayName("팩토리 테스트")
+    @DisplayName("기본 생성자")
     void create() {
-        assertEquals(recruitId, dut.getId());
-        assertEquals(BEGIN, dut.getStatus());
+
+        assertThatIllegalStateException().isThrownBy(() -> Recruit(null));
+
+        Recruit recruit = Recruit(recruitId);
+
+        assertThat(recruit.id()).isEqualTo(recruitId);
+        assertThat(recruit.title()).isEqualTo(UNTITLED);
+        assertThat(recruit.content()).isEqualTo(NO_CONTENT);
+        assertThat(recruit.status()).isEqualTo(BEGIN);
+
+        assertThat(recruit.allInquiryDefinitions()).isEmpty();
 
         expectedEventInOrder(RecruitCreatedEvent.class);
+
+        assertThat(domainEvent(RecruitCreatedEvent.class).getRecruitId()).isEqualTo(recruit.id());
+
     }
 
 
     @Test
     void addInquiryItem() {
 
-        assertTrue(dut.allInquiryDefinitions().isEmpty());
+        Recruit dut = testRecruit();
 
-        assertThrows(IllegalArgumentException.class , () -> dut.addInquiryDefinition(null));
+        assertThat(dut.allInquiryDefinitions()).isEmpty();
+        assertThatIllegalArgumentException().isThrownBy(() -> dut.addInquiryDefinition(null));
 
         dut.addInquiryDefinition(anyInquiryDefinition());
 
-        assertEquals(1, dut.allInquiryDefinitions().size());
+        assertThat(dut.allInquiryDefinitions()).hasSize(1);
 
         dut.start();
 
@@ -45,7 +51,7 @@ class RecruitTest extends RecruitCommonTestSupport {
             RecruitCreatedEvent.class,
             RecruitStatusChangedEvent.class);
 
-        assertThrows(IllegalStateException.class, () -> dut.addInquiryDefinition(anyInquiryDefinition()));
+        assertThatIllegalStateException().isThrownBy(() -> dut.addInquiryDefinition(anyInquiryDefinition()));
     }
 
 }

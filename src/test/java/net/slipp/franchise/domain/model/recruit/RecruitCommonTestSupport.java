@@ -3,6 +3,8 @@ package net.slipp.franchise.domain.model.recruit;
 import net.slipp.franchise.domain.model.DomainTestSupport;
 import org.mockito.Mock;
 
+import static net.slipp.franchise.domain.model.recruit.Recruit.Recruit;
+
 public abstract class RecruitCommonTestSupport extends DomainTestSupport {
 
     @Mock
@@ -14,7 +16,7 @@ public abstract class RecruitCommonTestSupport extends DomainTestSupport {
     }
 
     protected Recruit testRecruit() {
-        return new Recruit(recruitId);
+        return Recruit(recruitId);
     }
 
     protected InquiryDefinition anyInquiryDefinition() {
