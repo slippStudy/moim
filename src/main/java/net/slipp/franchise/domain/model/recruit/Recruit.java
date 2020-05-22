@@ -8,6 +8,7 @@ package net.slipp.franchise.domain.model.recruit;
 import com.google.common.collect.Sets;
 import net.slipp.common.Assertions;
 import net.slipp.common.domain.model.DomainEventPublisher;
+import net.slipp.franchise.domain.model.user.UserId;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -27,6 +28,9 @@ public class Recruit {
     private final RecruitId id;
 
     @NotNull
+    private final UserId owner;
+
+    @NotNull
     private Title title;
 
     @NotNull
@@ -37,12 +41,13 @@ public class Recruit {
 
     private Set<InquiryDefinition> inquiryDefinitions;
 
-    public static Recruit Recruit(RecruitId id){
-        return new Recruit(id);
+    public static Recruit Recruit(RecruitId id, UserId userId){
+        return new Recruit(id, userId);
     }
 
-    private Recruit(RecruitId id) {
+    private Recruit(RecruitId id, UserId userId) {
         this.id = id;
+        this.owner = userId;
         this.status = BEGIN;
         this.title = Title.UNTITLED;
         this.content = Content.NO_CONTENT;
@@ -109,5 +114,9 @@ public class Recruit {
     private void setStatus(@NotNull final Status status) {
         this.status = status;
         DomainEventPublisher.instance().publish(new RecruitStatusChangedEvent(this.id, this.status));
+    }
+
+    public UserId owner() {
+        return owner;
     }
 }
