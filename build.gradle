@@ -3,9 +3,12 @@ plugins {
     id "org.springframework.boot" version "2.2.2.RELEASE"
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id "io.freefair.lombok" version "5.0.0"
+
     id 'java-library'
     id "jacoco"
     id "com.github.kt3k.coveralls" version "2.10.1"
+
+    id 'org.hidetake.swagger.generator' version '2.18.2'
 }
 
 
@@ -20,6 +23,8 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     implementation group: 'com.google.guava', name: 'guava', version: '29.0-jre'
 
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.1'
+    implementation 'io.swagger:swagger-annotations:1.5.22'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -29,6 +34,24 @@ dependencies {
 
 }
 
+swaggerSources {
+    franchise {
+        inputFile = file('franchise-swagger.yaml')
+        code {
+            language = 'spring'
+            components = ['models', 'apis']
+            configFile = file("$rootDir/franchise-config.json")
+            outputDir = file("$rootDir/src/main/generated/")
+            wipeOutputDir = false
+
+            dependsOn validation
+        }
+    }
+}
+
+compileJava.dependsOn swaggerSources.franchise.code
+sourceSets.main.java.srcDir "${swaggerSources.franchise.code.outputDir}/src/main/java"
+sourceSets.main.resources.srcDir "${swaggerSources.franchise.code.outputDir}/src/main/resources"
 
 test {
     useJUnitPlatform()
