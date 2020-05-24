@@ -11,6 +11,10 @@ public class Title {
         this.text = aText;
     }
 
+    public String text() {
+        return text;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(text);
