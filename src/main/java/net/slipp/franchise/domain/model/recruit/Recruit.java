@@ -1,8 +1,3 @@
-/**
- * Created by joenggyu0@gmail.com on 4/7/20
- * Github : http://github.com/lenkim
- */
-
 package net.slipp.franchise.domain.model.recruit;
 
 import com.google.common.collect.Sets;
@@ -15,6 +10,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,6 +35,10 @@ public class Recruit {
     @NotNull
     private Status status;
 
+    @NotNull
+    private DeadLineDateTime deadLineDateTime;
+
+    @NotNull
     private Set<InquiryDefinition> inquiryDefinitions;
 
     public static Recruit Recruit(RecruitId id, UserId userId){
@@ -52,6 +52,7 @@ public class Recruit {
         this.title = Title.UNTITLED;
         this.content = Content.NO_CONTENT;
         this.setInquiryDefinitions(Sets.newHashSet());
+        this.deadLineDateTime = DeadLineDateTime.DATETIME_NOW;
 
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -91,6 +92,30 @@ public class Recruit {
     public Content content() {
         return content;
     }
+
+    public DeadLineDateTime deadLineDateTime() {
+        return deadLineDateTime;
+    }
+
+    public void setTitle(Title title) {
+        if (title.text().length() < 2) {
+            throw new IllegalArgumentException("2글자 이상 작성해주세요.");
+        }
+        this.title = title;
+    }
+
+    public void setContent(Content content) {
+        this.content = content;
+    }
+
+    public void setDeadLineDateTime(DeadLineDateTime deadLineDateTime) {
+        DeadLineDateTime currentLocalTime = new DeadLineDateTime(LocalDateTime.now());
+        if (deadLineDateTime.dateTime().isBefore(currentLocalTime.dateTime())) {
+            throw new IllegalArgumentException("현재 시간보다 앞시간을 선택해주세요.");
+        }
+        this.deadLineDateTime = deadLineDateTime;
+    }
+
 
     public Set<InquiryDefinition> allInquiryDefinitions() {
         return Collections.unmodifiableSet(this.inquiryItems());

@@ -3,6 +3,8 @@ package net.slipp.franchise.domain.model.recruit;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 import static net.slipp.franchise.domain.model.recruit.Content.NO_CONTENT;
 import static net.slipp.franchise.domain.model.recruit.Recruit.Recruit;
 import static net.slipp.franchise.domain.model.recruit.Status.BEGIN;
@@ -26,6 +28,7 @@ class RecruitTest extends RecruitCommonTestSupport {
         assertThat(recruit.title()).isEqualTo(UNTITLED);
         assertThat(recruit.content()).isEqualTo(NO_CONTENT);
         assertThat(recruit.status()).isEqualTo(BEGIN);
+        assertThat(recruit.deadLineDateTime().dateTime().toLocalDate()).isEqualTo(LocalDateTime.now().toLocalDate());
 
         assertThat(recruit.allInquiryDefinitions()).isEmpty();
 

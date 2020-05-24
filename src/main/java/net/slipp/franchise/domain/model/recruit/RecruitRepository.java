@@ -1,13 +1,13 @@
-/**
- * Created by joenggyu0@gmail.com on 4/7/20
- * Github : http://github.com/lenkim
- */
-
 package net.slipp.franchise.domain.model.recruit;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface RecruitRepository {
 
     RecruitId nextId();
 
     void save(Recruit recruit);
+
+    Recruit findById(RecruitId of);
 }
