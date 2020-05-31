@@ -11,12 +11,6 @@ info:
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "franchise"
 basePath: "/v1"
-tags:
-  - name: "franchise"
-    description: "누구든지 스터디를 만들고 자신이 원하는 스터디에 참여할 수 있다."
-    externalDocs:
-      description: "Find out more"
-      url: "https://github.com/slippStudy/franchise"
 schemes:
   - "http"
 paths:
@@ -24,9 +18,9 @@ paths:
     post:
       tags:
         - "recruits"
-      summary: "create a new recruit to the world"
+      summary: "새로운 모집을 생성합니다."
       operationId: "createRecruit"
-      description: ""
+      description: "새로운 모집을 생성합니다."
       consumes:
         - "application/json"
       produces:
@@ -34,22 +28,29 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "Recruit object that needs to be added"
+          description: "Recruit를 생성하기 위한 요소을 포함합니다."
           required: true
           schema:
             $ref: "#/definitions/RecruitCreateModel"
       responses:
         "200":
-          description: "successful operation"
+          description: "성공적으로 모집을 생성했음."
           schema:
             $ref: "#/definitions/RecruitModel"
         "400":
-          description: "Invalid Order"
-  /recruits/{recruitId}:
+          description: "
+          - 제목, 또는 마감일시를 입력하지 않았을 경우 <br>
+          - 제목의 글자수가 2자 이하일 경우. <br>
+          - 마감일시를 현재보다 과거를 했을 경우 <br>
+          "
+        "500":
+          description: "생성자가 존재하지 않을 경우"
+
+  /recruits/recruit/{recruitId}:
     put:
       tags:
         - "recruits"
-      summary: "update recruit"
+      summary: "모집 정보를 변경합니다."
       operationId: "updateRecruitContents"
       description: ""
       consumes:
@@ -59,7 +60,7 @@ paths:
       parameters:
         - in: "path"
           name: "recruitId"
-          description: "RecruitId is identity of Recruit "
+          description: "특정 모집을 식별하기 위한 Property"
           required: true
           type: string
         - in: "body"
@@ -69,16 +70,18 @@ paths:
             $ref: "#/definitions/RecruitUpdateModel"
       responses:
         "200":
-          description: "successful operation"
+          description: "성공적으로 변경시 RecruitModel 반환"
           schema:
             $ref: "#/definitions/RecruitModel"
         "400":
-          description: "Invalid Order"
+          description: "제목, 마감일자가 존재하지 않을 경우 400 반환"
+        "500":
+          description: "생성자가 존재하지 않을 경우 500 반환"
     get:
       tags:
         - "recruits"
-      summary: get Recurit
-      operationId: "getRecruit"
+      summary: "특정 모집의 정보를 조회합니다."
+      operationId: "getRecruitById"
       description: ""
       consumes:
         - "application/json"
@@ -87,7 +90,7 @@ paths:
       parameters:
         - in: "path"
           name: "recruitId"
-          description: "RecruitId is identity of Recruit "
+          description: "특정 모집을 식별하기 위한 Property"
           required: true
           type: string
         - in: "body"
@@ -100,13 +103,16 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/RecruitModel"
+        500:
+          description: "생성자가 존재하지 않을 경우 500 반환"
+
 
   /recruits/{recruitId}/status:
     put:
       tags:
         - "recruits"
-      summary: "status change recruit"
-      operationId: "statusChange"
+      summary: "특정 모집의 상태를 변경합니다."
+      operationId: "recruitStatusChange"
       description: ""
       consumes:
         - "application/json"
@@ -115,7 +121,7 @@ paths:
       parameters:
         - in: "path"
           name: "recruitId"
-          description: "can change status by recruitId "
+          description: "특정 모집을 식별하기 위한 Property"
           required: true
           type: string
         - in: "body"
@@ -124,35 +130,40 @@ paths:
           schema:
             $ref: "#/definitions/RecruitUpdateModel"
       responses:
-        "200":
+        200:
           description: "successful operation"
           schema:
             $ref: "#/definitions/RecruitModel"
-        "400":
-          description: "Invalid Order"
+        500:
+          description: "만든이, 제목, 마감일자가 존재하지 않는다면 500 반환"
 definitions:
   RecruitModel:
     type: object
     additionalProperties: true
     properties:
       recruitId:
+        description: 모집을 식별하기 위한 ID
         type: string
-      creatorEmail:
+      creator:
+        description: 모집을 만든 사람
         type: string
       title:
+        description: 모집의 제목
         type: string
-      recruitContents:
+      contents:
         type: string
       deadlineDate:
         type: string
         format: date-time
       inquires:
+        description: 모집의 질의문
         type: array
         items:
           $ref: "#/definitions/InquiryModel"
       status:
         type: string
-        description: "Order Status"
+        description: "모집의 상태를 나타내며, 모집을 처음 생성시 START,
+        사람을 모일 수 있는 상태를 BEGIN, 모집의 종료를 나타내는 FINISH"
         enum:
           - "START"
           - "BEGIN"
@@ -162,7 +173,7 @@ definitions:
   InquiryModel:
     type: object
     properties:
-      creatorEmail:
+      creator:
         type: string
       question:
         type: string
@@ -171,7 +182,7 @@ definitions:
   RecruitCreateModel:
     type: object
     properties:
-      creatorEmail:
+      creator:
         type: string
       title:
         type: string
@@ -183,7 +194,7 @@ definitions:
   RecruitUpdateModel:
     type: object
     properties:
-      creatorEmail:
+      creator:
         type: string
       title:
         type: string
