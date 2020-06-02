@@ -10,3 +10,4 @@ out/**
 
 src/main/generated/*
 lombok.config
+/api/**

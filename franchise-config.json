@@ -7,7 +7,7 @@
   "apiPackage": "net.slipp.franchise.apis",
 
   "library": "spring-boot",
-  "dateLibrary": "java8",
+  "dateLibrary": "java8-localdatetime",
   "useTags": true,
 
   "interfaceOnly" : true,

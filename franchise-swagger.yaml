@@ -38,13 +38,10 @@ paths:
           schema:
             $ref: "#/definitions/RecruitModel"
         "400":
-          description: "
-          - 제목, 또는 마감일시를 입력하지 않았을 경우 <br>
-          - 제목의 글자수가 2자 이하일 경우. <br>
-          - 마감일시를 현재보다 과거를 했을 경우 <br>
-          "
+          $ref: '#/responses/BadRequest'
         "500":
-          description: "생성자가 존재하지 않을 경우"
+          $ref: '#/responses/InternalServer'
+
 
   /recruits/recruit/{recruitId}:
     put:
@@ -69,14 +66,14 @@ paths:
           schema:
             $ref: "#/definitions/RecruitUpdateModel"
       responses:
-        "200":
+        200:
           description: "성공적으로 변경시 RecruitModel 반환"
           schema:
             $ref: "#/definitions/RecruitModel"
-        "400":
-          description: "제목, 마감일자가 존재하지 않을 경우 400 반환"
-        "500":
-          description: "생성자가 존재하지 않을 경우 500 반환"
+        400:
+          $ref: '#/responses/BadRequest'
+        500:
+          $ref: '#/responses/InternalServer'
     get:
       tags:
         - "recruits"
@@ -104,10 +101,10 @@ paths:
           schema:
             $ref: "#/definitions/RecruitModel"
         500:
-          description: "생성자가 존재하지 않을 경우 500 반환"
+          $ref: '#/responses/InternalServer'
 
 
-  /recruits/{recruitId}/status:
+  /recruits/recruit/{recruitId}/status:
     put:
       tags:
         - "recruits"
@@ -124,22 +121,22 @@ paths:
           description: "특정 모집을 식별하기 위한 Property"
           required: true
           type: string
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/RecruitUpdateModel"
       responses:
         200:
           description: "successful operation"
           schema:
             $ref: "#/definitions/RecruitModel"
         500:
-          description: "만든이, 제목, 마감일자가 존재하지 않는다면 500 반환"
+          $ref: '#/responses/InternalServer'
+
 definitions:
   RecruitModel:
     type: object
-    additionalProperties: true
+    required:
+      - recruitId
+      - creator
+      - title
+      - deadlineDate
     properties:
       recruitId:
         description: 모집을 식별하기 위한 ID
@@ -147,9 +144,12 @@ definitions:
       creator:
         description: 모집을 만든 사람
         type: string
+        format: email
       title:
         description: 모집의 제목
         type: string
+        minLength: 2
+        maxLength: 30
       contents:
         type: string
       deadlineDate:
@@ -172,20 +172,33 @@ definitions:
       name: "Recruit"
   InquiryModel:
     type: object
+    required:
+      - creator
+      - question
+      - required
     properties:
       creator:
         type: string
+        format: email
       question:
         type: string
       required:
         type: boolean
+        default: false
   RecruitCreateModel:
     type: object
+    required:
+      - creator
+      - title
+      - deadlineDate
     properties:
       creator:
         type: string
+        format: email
       title:
         type: string
+        minLength: 2
+        maxLength: 30
       contents:
         type: string
       deadlineDate:
@@ -193,15 +206,66 @@ definitions:
         format: date-time
   RecruitUpdateModel:
     type: object
+    required:
+      - creator
+      - title
+      - deadlineDate
     properties:
       creator:
         type: string
+        format: email
       title:
         type: string
+        minLength: 2
+        maxLength: 30
       contents:
         type: string
       deadlineDate:
         type: string
         format: date-time
-    xml:
-      name: "Recruit"
+
+  BaseError:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+  NotFoundError:
+    allOf:
+      - $ref: '#/definitions/BaseError'
+      - type: object
+  UnauthorizedError:
+    allOf:
+      - $ref: '#/definitions/BaseError'
+      - type: object
+  BadRequestError:
+    allOf:
+      - $ref: '#/definitions/BaseError'
+      - type: object
+  InternalServerError:
+    allOf:
+      - $ref: '#/definitions/BaseError'
+      - type: object
+
+# Descriptions of common responses
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: '#/definitions/NotFoundError'
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: '#/definitions/UnauthorizedError'
+  BadRequest:
+    description: BadRequest
+    schema:
+      $ref: '#/definitions/BadRequestError'
+  InternalServer:
+    description: InternalServerError
+    schema:
+      $ref: '#/definitions/InternalServerError'
