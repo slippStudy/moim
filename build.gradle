@@ -41,7 +41,7 @@ swaggerSources {
             language = 'spring'
             components = ['models', 'apis']
             configFile = file("$rootDir/franchise-config.json")
-            outputDir = file("api/generated")
+            outputDir = file("$rootDir/src/main/generated")
             wipeOutputDir = true
 
             dependsOn validation
@@ -52,24 +52,6 @@ swaggerSources {
 compileJava.dependsOn swaggerSources.franchise.code
 sourceSets.main.java.srcDir "${swaggerSources.franchise.code.outputDir}/src/main/java"
 sourceSets.main.resources.srcDir "${swaggerSources.franchise.code.outputDir}/src/main/resources"
-
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'io.freefair.lombok'
-    sourceCompatibility = '1.8'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-project(':api') {
-    dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-    }
-}
 
 test {
     useJUnitPlatform()
