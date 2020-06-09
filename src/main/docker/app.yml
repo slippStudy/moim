@@ -1,0 +1,20 @@
+version: '2'
+services:
+  slipping-app:
+    image: slipping-image
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=prod,swagger
+      - SPRING_DATASOURCE_URL=jdbc:mysql://slipping-mysql:3306/slipping?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+      - SLIPP_CACHE_REDIS_SERVER=redis://slipping-redis:6379
+      - SLIPP_CACHE_REDIS_CLUSTER=false
+    ports:
+      - 8080:8080
+  slipping-mysql:
+    extends:
+      file: mysql.yml
+      service: slipping-mysql
+  slipping-redis:
+    extends:
+      file: redis.yml
+      service: slipping-redis
