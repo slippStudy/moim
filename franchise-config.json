@@ -10,6 +10,7 @@
   "dateLibrary": "java8-localdatetime",
   "useTags": true,
 
-  "interfaceOnly" : true,
-  "hideGenerationTimestamp":true
+
+  "interfaceOnly": true,
+  "hideGenerationTimestamp": true
 }

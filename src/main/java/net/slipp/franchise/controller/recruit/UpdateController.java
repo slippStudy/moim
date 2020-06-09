@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @RestController
 public class UpdateController implements RecruitUpdateApi {
@@ -26,7 +26,10 @@ public class UpdateController implements RecruitUpdateApi {
 
     @Override
     public ResponseEntity<RecruitModel> updateRecruit(String recruitId, @Valid RecruitUpdateModel body) {
-        RecruitModel model = new RecruitModel();
-        return new ResponseEntity<>(model, HttpStatus.OK);
+
+        if (body.getDeadlineDate().isBefore(LocalDateTime.now())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

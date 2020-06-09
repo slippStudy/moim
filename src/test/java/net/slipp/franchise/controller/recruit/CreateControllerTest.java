@@ -6,6 +6,7 @@
 package net.slipp.franchise.controller.recruit;
 
 
+import net.slipp.franchise.models.RecruitCreateModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,46 +25,33 @@ public class CreateControllerTest extends RecruitsCommonTestSupport {
     @Test
     public void _400_when_title_missing() throws Exception {
         createModel.title(null);
-        mockMvc.perform(post("/recruits")
-                .contentType(CONTENT_TYPE)
-                .content(mapper.writeValueAsString(createModel))
-        ).andExpect(status().isBadRequest());
+
+        expectedBadRequestApiByBody(createModel);
     }
 
     @Test
     public void _400_when_title_length_is_not_2_or_less() throws Exception {
-        createModel.title("T");
-        mockMvc.perform(post("/recruits")
-                .contentType(CONTENT_TYPE)
-                .content(mapper.writeValueAsString(createModel))
-        ).andExpect(status().isBadRequest());
+        createModel.title("A");
+
+        expectedBadRequestApiByBody(createModel);
     }
 
     @Test
     public void _400_when_no_deadline_date() throws Exception {
         createModel.deadlineDate(null);
-        mockMvc.perform(post("/recruits")
-                .contentType(CONTENT_TYPE)
-                .content(mapper.writeValueAsString(createModel))
-        ).andExpect(status().isBadRequest());
+        expectedBadRequestApiByBody(createModel);
     }
 
     @Test
     public void _400_when_deadline_date_is_behind_from_now() throws Exception {
         createModel.deadlineDate(LocalDateTime.now().minusMonths(1));
-        mockMvc.perform(post("/recruits")
-                .contentType(CONTENT_TYPE)
-                .content(mapper.writeValueAsString(createModel))
-        ).andExpect(status().isBadRequest());
+        expectedBadRequestApiByBody(createModel);
     }
 
     @Test
     public void _400_when_creator_is_missing() throws Exception {
         createModel.creator(null);
-        mockMvc.perform(post("/recruits")
-                .contentType(CONTENT_TYPE)
-                .content(mapper.writeValueAsString(createModel))
-        ).andExpect(status().isBadRequest());
+        expectedBadRequestApiByBody(createModel);
     }
 
     @Test
@@ -72,5 +60,12 @@ public class CreateControllerTest extends RecruitsCommonTestSupport {
                 .contentType(CONTENT_TYPE)
                 .content(mapper.writeValueAsString(createModel))
         ).andExpect(status().isOk());
+    }
+
+    private void expectedBadRequestApiByBody(RecruitCreateModel body) throws Exception {
+        mockMvc.perform(post("/recruits")
+                .contentType(CONTENT_TYPE)
+                .content(mapper.writeValueAsString(body))
+        ).andExpect(status().isBadRequest());
     }
 }
