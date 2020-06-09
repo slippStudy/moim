@@ -47,7 +47,7 @@ public class CreateControllerTest extends RecruitsCommonTestSupport {
                 .content(mapper.writeValueAsString(createModel))
         ).andExpect(status().isBadRequest());
     }
-    
+
     @Test
     public void _400_when_deadline_date_is_behind_from_now() throws Exception {
         createModel.deadlineDate(LocalDateTime.now().minusMonths(1));
@@ -65,12 +65,12 @@ public class CreateControllerTest extends RecruitsCommonTestSupport {
                 .content(mapper.writeValueAsString(createModel))
         ).andExpect(status().isBadRequest());
     }
-    
+
     @Test
     public void _200_when_creator_title_deadline_date_is_existed() throws Exception {
-//        mockMvc.perform(post("/recruits")
-//                .contentType(CONTENT_TYPE)
-//                .content(mapper.writeValueAsString(createModel))
-//        ).andExpect(status().isOk());
+        mockMvc.perform(post("/recruits")
+                .contentType(CONTENT_TYPE)
+                .content(mapper.writeValueAsString(createModel))
+        ).andExpect(status().isOk());
     }
 }

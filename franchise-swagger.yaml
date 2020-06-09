@@ -17,7 +17,7 @@ paths:
   /recruits:
     post:
       tags:
-        - "recruits"
+        - "recruitCreate"
       summary: "새로운 모집을 생성합니다."
       operationId: "createRecruit"
       description: "새로운 모집을 생성합니다."
@@ -43,12 +43,12 @@ paths:
           $ref: '#/responses/InternalServer'
 
 
-  /recruits/recruit/{recruitId}:
+  /recruits/{recruitId}:
     put:
       tags:
-        - "recruits"
+        - "recruitUpdate"
       summary: "모집 정보를 변경합니다."
-      operationId: "updateRecruitContents"
+      operationId: "updateRecruit"
       description: ""
       consumes:
         - "application/json"
@@ -76,7 +76,7 @@ paths:
           $ref: '#/responses/InternalServer'
     get:
       tags:
-        - "recruits"
+        - "recruitGet"
       summary: "특정 모집의 정보를 조회합니다."
       operationId: "getRecruitById"
       description: ""
@@ -90,11 +90,6 @@ paths:
           description: "특정 모집을 식별하기 위한 Property"
           required: true
           type: string
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/RecruitUpdateModel"
       responses:
         200:
           description: "successful operation"
@@ -104,10 +99,10 @@ paths:
           $ref: '#/responses/InternalServer'
 
 
-  /recruits/recruit/{recruitId}/status:
+  /recruits/{recruitId}/status:
     put:
       tags:
-        - "recruits"
+        - "recruitUpdate"
       summary: "특정 모집의 상태를 변경합니다."
       operationId: "recruitStatusChange"
       description: ""

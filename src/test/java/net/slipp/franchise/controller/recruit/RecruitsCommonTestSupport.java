@@ -8,7 +8,6 @@ import net.slipp.franchise.models.RecruitUpdateModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-@WebMvcTest(controllers = RecruitController.class)
+@WebMvcTest(controllers = {ReadController.class, CreateController.class, UpdateController.class})
 abstract class RecruitsCommonTestSupport {
 
     @Autowired
@@ -24,9 +23,6 @@ abstract class RecruitsCommonTestSupport {
 
     @Autowired
     ObjectMapper mapper;
-
-    @MockBean
-    RecruitController recruitController;
 
     Recruit recruit;
 
@@ -45,23 +41,38 @@ abstract class RecruitsCommonTestSupport {
 
     @BeforeEach
     void setUp() {
+        recruit = getRecruit();
+        createModel = getCreateModel();
+        updateModel = getUpdateModel();
+    }
+
+    private RecruitUpdateModel getUpdateModel() {
+        Recruit recruit = getRecruit();
+        updateModel = new RecruitUpdateModel();
+        updateModel.creator(recruit.owner().toString());
+        updateModel.title(recruit.title().text());
+        updateModel.contents(recruit.content().text());
+        updateModel.deadlineDate(DEADLINE_DATE.dateTime());
+        return updateModel;
+    }
+
+    private RecruitCreateModel getCreateModel() {
+        Recruit recruit = getRecruit();
+        createModel = new RecruitCreateModel();
+        createModel.creator(recruit.owner().toString());
+        createModel.title(recruit.title().text());
+        createModel.deadlineDate(DEADLINE_DATE.dateTime());
+        createModel.contents(recruit.content().text());
+        return  createModel;
+    }
+
+    private Recruit getRecruit() {
         RecruitId id = RecruitId.of("1");
         UserId userId = UserId.of(SENDER_EMAIL);
         recruit = Recruit.Recruit(id, userId);
         recruit.setTitle(new Title(TITLE_TEXT));
         recruit.setContent(new Content(CONTENT_TEXT));
         recruit.setDeadLineDateTime(DEADLINE_DATE);
-
-        createModel = new RecruitCreateModel();
-        createModel.creator(recruit.owner().toString());
-        createModel.title(recruit.title().text());
-        createModel.deadlineDate(DEADLINE_DATE.dateTime());
-        createModel.contents(recruit.content().text());
-
-        updateModel = new RecruitUpdateModel();
-        updateModel.creator(recruit.owner().toString());
-        updateModel.title(recruit.title().text());
-        updateModel.contents(recruit.content().text());
-        updateModel.deadlineDate(DEADLINE_DATE.dateTime());
+        return recruit;
     }
 }
