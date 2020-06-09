@@ -36,12 +36,12 @@ dependencies {
 
 swaggerSources {
     franchise {
-        inputFile = file('franchise-swagger.yaml')
+        inputFile = file('swagger/franchise-swagger.yaml')
         code {
             language = 'spring'
             components = ['models', 'apis']
-            configFile = file("$rootDir/franchise-config.json")
-            outputDir = file("$rootDir/src/main/generated")
+            configFile = file("swagger/franchise-config.json")
+            outputDir = file("swagger/generated")
             wipeOutputDir = true
 
             dependsOn validation
