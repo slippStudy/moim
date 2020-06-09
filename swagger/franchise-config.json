@@ -6,10 +6,14 @@
   "modelPackage": "net.slipp.franchise.models",
   "apiPackage": "net.slipp.franchise.apis",
 
-  "library": "spring-boot",
-  "dateLibrary": "java8",
+  "java8": true,
   "useTags": true,
+  "useBeanValidation": true,
+  "interfaceOnly": true,
+  "defaultInterfaces": false,
+  "implicitHeaders": true,
 
-  "interfaceOnly" : true,
-  "hideGenerationTimestamp":true
+  "dateLibrary" : "java8-localdatetime"
 }
+
+

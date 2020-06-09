@@ -8,5 +8,6 @@ build
 out
 out/**
 
-src/main/generated/*
 lombok.config
+
+/swagger/generated/

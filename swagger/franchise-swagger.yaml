@@ -1,0 +1,266 @@
+swagger: "2.0"
+info:
+  description: "누구든지 스터디를 만들고 자신이 원하는 스터디에 참여할 수 있다. "
+  version: "1.0.0"
+  title: "Franchise"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "joenggyu0@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "franchise"
+basePath: "/v1"
+schemes:
+  - "http"
+paths:
+  /recruits:
+    post:
+      tags:
+        - "recruitCreate"
+      summary: "새로운 모집을 생성합니다."
+      operationId: "createRecruit"
+      description: "새로운 모집을 생성합니다."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Recruit를 생성하기 위한 요소을 포함합니다."
+          required: true
+          schema:
+            $ref: "#/definitions/RecruitCreateModel"
+      responses:
+        "200":
+          description: "성공적으로 모집을 생성했음."
+          schema:
+            $ref: "#/definitions/RecruitModel"
+        "400":
+          $ref: '#/responses/BadRequest'
+        "500":
+          $ref: '#/responses/InternalServer'
+
+
+  /recruits/{recruitId}:
+    put:
+      tags:
+        - "recruitUpdate"
+      summary: "모집 정보를 변경합니다."
+      operationId: "updateRecruit"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "recruitId"
+          description: "특정 모집을 식별하기 위한 Property"
+          required: true
+          type: string
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/RecruitUpdateModel"
+      responses:
+        200:
+          description: "성공적으로 변경시 RecruitModel 반환"
+          schema:
+            $ref: "#/definitions/RecruitModel"
+        400:
+          $ref: '#/responses/BadRequest'
+        500:
+          $ref: '#/responses/InternalServer'
+    get:
+      tags:
+        - "recruitGet"
+      summary: "특정 모집의 정보를 조회합니다."
+      operationId: "getRecruitById"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "recruitId"
+          description: "특정 모집을 식별하기 위한 Property"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RecruitModel"
+        500:
+          $ref: '#/responses/InternalServer'
+
+
+  /recruits/{recruitId}/status:
+    put:
+      tags:
+        - "recruitUpdate"
+      summary: "특정 모집의 상태를 변경합니다."
+      operationId: "recruitStatusChange"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "recruitId"
+          description: "특정 모집을 식별하기 위한 Property"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RecruitModel"
+        500:
+          $ref: '#/responses/InternalServer'
+
+definitions:
+  RecruitModel:
+    type: object
+    required:
+      - recruitId
+      - creator
+      - title
+      - deadlineDate
+    properties:
+      recruitId:
+        description: 모집을 식별하기 위한 ID
+        type: string
+      creator:
+        description: 모집을 만든 사람
+        type: string
+        format: email
+      title:
+        description: 모집의 제목
+        type: string
+        minLength: 2
+        maxLength: 30
+      contents:
+        type: string
+      deadlineDate:
+        type: string
+        format: date-time
+      inquires:
+        description: 모집의 질의문
+        type: array
+        items:
+          $ref: "#/definitions/InquiryModel"
+      status:
+        type: string
+        description: "모집의 상태를 나타내며, 모집을 처음 생성시 START,
+        사람을 모일 수 있는 상태를 BEGIN, 모집의 종료를 나타내는 FINISH"
+        enum:
+          - "START"
+          - "BEGIN"
+          - "FINISH"
+    xml:
+      name: "Recruit"
+  InquiryModel:
+    type: object
+    required:
+      - creator
+      - question
+      - required
+    properties:
+      creator:
+        type: string
+        format: email
+      question:
+        type: string
+      required:
+        type: boolean
+        default: false
+  RecruitCreateModel:
+    type: object
+    required:
+      - creator
+      - title
+      - deadlineDate
+    properties:
+      creator:
+        type: string
+        format: email
+      title:
+        type: string
+        minLength: 2
+        maxLength: 30
+      contents:
+        type: string
+      deadlineDate:
+        type: string
+        format: date-time
+  RecruitUpdateModel:
+    type: object
+    required:
+      - creator
+      - title
+      - deadlineDate
+    properties:
+      creator:
+        type: string
+        format: email
+      title:
+        type: string
+        minLength: 2
+        maxLength: 30
+      contents:
+        type: string
+      deadlineDate:
+        type: string
+        format: date-time
+
+  BaseError:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+  NotFoundError:
+    allOf:
+      - $ref: '#/definitions/BaseError'
+      - type: object
+  UnauthorizedError:
+    allOf:
+      - $ref: '#/definitions/BaseError'
+      - type: object
+  BadRequestError:
+    allOf:
+      - $ref: '#/definitions/BaseError'
+      - type: object
+  InternalServerError:
+    allOf:
+      - $ref: '#/definitions/BaseError'
+      - type: object
+
+# Descriptions of common responses
+responses:
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: '#/definitions/NotFoundError'
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: '#/definitions/UnauthorizedError'
+  BadRequest:
+    description: BadRequest
+    schema:
+      $ref: '#/definitions/BadRequestError'
+  InternalServer:
+    description: InternalServerError
+    schema:
+      $ref: '#/definitions/InternalServerError'
