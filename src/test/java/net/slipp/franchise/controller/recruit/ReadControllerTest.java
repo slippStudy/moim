@@ -23,11 +23,11 @@ public class ReadControllerTest extends RecruitsCommonTestSupport {
     @Test
     public void _400_when_path_parameter_is_not_numeric() throws Exception {
 
-        mockMvc.perform(get("/recruits/{recruitId}", "하하")
+        mockMvc.perform(get("/v1/recruits/{recruitId}", "하하")
                 .contentType(CONTENT_TYPE)
         ).andExpect(status().isBadRequest());
 
-        mockMvc.perform(get("/recruits/{recruitId}", "@#!$%")
+        mockMvc.perform(get("/v1/recruits/{recruitId}", "@#!$%")
                 .contentType(CONTENT_TYPE)
         ).andExpect(status().isBadRequest());
 

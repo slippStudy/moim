@@ -1,2 +1,3 @@
 rootProject.name = 'net.slipp.franchise'
-include 'api'
+include 'slippcodegen'
+

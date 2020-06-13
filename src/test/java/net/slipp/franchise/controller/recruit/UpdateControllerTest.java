@@ -24,11 +24,11 @@ public class UpdateControllerTest extends RecruitsCommonTestSupport {
     @Test
     public void _400_when_path_parameter_is_wrong() throws Exception {
 
-        mockMvc.perform(get("/recruits/{recruitId}", "하하")
+        mockMvc.perform(get("/v1/recruits/{recruitId}", "하하")
                 .contentType(CONTENT_TYPE)
         ).andExpect(status().isBadRequest());
 
-        mockMvc.perform(get("/recruits/{recruitId}", "@#!$%")
+        mockMvc.perform(get("/v1/recruits/{recruitId}", "@#!$%")
                 .contentType(CONTENT_TYPE)
         ).andExpect(status().isBadRequest());
 
@@ -38,14 +38,14 @@ public class UpdateControllerTest extends RecruitsCommonTestSupport {
     public void _400_when_no_existed_in_title_or_deadline_date() throws Exception {
         updateModel.title(null);
 
-        mockMvc.perform(put("/recruits/{recruitId}", "1")
+        mockMvc.perform(put("/v1/recruits/{recruitId}", "1")
                 .contentType(CONTENT_TYPE)
                 .content(mapper.writeValueAsString(updateModel))
         ).andExpect(status().isBadRequest());
 
         updateModel.title(TITLE_TEXT);
         updateModel.deadlineDate(null);
-        mockMvc.perform(put("/recruits/{recruitId}", "1")
+        mockMvc.perform(put("/v1/recruits/{recruitId}", "1")
                 .contentType(CONTENT_TYPE)
                 .content(mapper.writeValueAsString(updateModel))
         ).andExpect(status().isBadRequest());
@@ -55,7 +55,7 @@ public class UpdateControllerTest extends RecruitsCommonTestSupport {
     public void _400_when_deadline_date_is_not_behind_from_now() throws Exception {
         updateModel.deadlineDate(LocalDateTime.now().minusMonths(1));
 
-        mockMvc.perform(put("/recruits/{recruitId}", "1")
+        mockMvc.perform(put("/v1/recruits/{recruitId}", "1")
                 .contentType(CONTENT_TYPE)
                 .content(mapper.writeValueAsString(updateModel))
         ).andExpect(status().isBadRequest());

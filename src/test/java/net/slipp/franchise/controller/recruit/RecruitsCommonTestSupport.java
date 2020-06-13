@@ -1,6 +1,9 @@
 package net.slipp.franchise.controller.recruit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.slipp.franchise.apis.RecruitCreateApi;
+import net.slipp.franchise.apis.RecruitGetApi;
+import net.slipp.franchise.apis.RecruitUpdateApi;
 import net.slipp.franchise.domain.model.recruit.*;
 import net.slipp.franchise.domain.model.user.UserId;
 import net.slipp.franchise.models.RecruitCreateModel;
@@ -15,7 +18,7 @@ import java.time.LocalDateTime;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-@WebMvcTest(controllers = {ReadController.class, CreateController.class, UpdateController.class})
+@WebMvcTest(controllers = {RecruitCreateApi.class, RecruitGetApi.class, RecruitUpdateApi.class, ReadController.class, CreateController.class, UpdateController.class})
 abstract class RecruitsCommonTestSupport {
 
     @Autowired

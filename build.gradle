@@ -39,17 +39,21 @@ swaggerSources {
     franchise {
         inputFile = file('swagger/franchise-swagger.yaml')
         code {
-            language = 'spring'
+            language = 'Slipp'
             components = ['models', 'apis']
             configFile = file("swagger/franchise-config.json")
-            outputDir = file("swagger/generated")
-            wipeOutputDir = true
+            outputDir = file("$rootDir/src/main/generated")
+            wipeOutputDir = false
 
             dependsOn validation
         }
     }
 }
+dependencies {
+    swaggerCodegen project('slippcodegen')
+}
 
+swaggerSources*.code*.dependsOn 'slippcodegen:jar'
 compileJava.dependsOn swaggerSources.franchise.code
 sourceSets.main.java.srcDir "${swaggerSources.franchise.code.outputDir}/src/main/java"
 sourceSets.main.resources.srcDir "${swaggerSources.franchise.code.outputDir}/src/main/resources"

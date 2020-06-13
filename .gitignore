@@ -10,4 +10,4 @@ out/**
 
 lombok.config
 
-/swagger/generated/
+/src/main/generated/
