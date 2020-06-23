@@ -44,6 +44,8 @@ dependencies {
     }
 
     testImplementation 'com.tngtech.archunit:archunit-junit5:0.13.1'
+
+    implementation project(':assertions')
 }
 
 swaggerSources {

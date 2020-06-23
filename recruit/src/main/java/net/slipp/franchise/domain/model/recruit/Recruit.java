@@ -1,9 +1,9 @@
 package net.slipp.franchise.domain.model.recruit;
 
 import com.google.common.collect.Sets;
-import net.slipp.common.Assertions;
 import net.slipp.common.domain.model.DomainEventPublisher;
 import net.slipp.franchise.domain.model.user.UserId;
+import net.slipp.utils.Assertions;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

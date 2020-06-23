@@ -1,5 +1,7 @@
 package net.slipp.common.domain.model;
 
+import net.slipp.utils.Assertions;
+
 import java.util.ArrayList;
 import java.util.List;
 

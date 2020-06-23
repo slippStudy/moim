@@ -1,5 +1,6 @@
 package net.slipp.franchise.domain.model.user;
 
+import net.slipp.utils.Assertions;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintViolation;
@@ -10,8 +11,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static net.slipp.common.Assertions.assertStateTrue;
 
 public class UserId {
 
@@ -29,7 +28,7 @@ public class UserId {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<UserId>> violations = validator.validate(this);
-        assertStateTrue(violations.isEmpty(), violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining()));
+        Assertions.assertStateTrue(violations.isEmpty(), violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining()));
     }
 
     @Override
