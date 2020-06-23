@@ -9,5 +9,3 @@ out
 out/**
 
 lombok.config
-
-/recruit/src/main/generated/

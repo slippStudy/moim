@@ -1,3 +1,4 @@
-rootProject.name = 'net.slipp.franchise'
+include 'recruit'
 include 'slippcodegen'
+
 
