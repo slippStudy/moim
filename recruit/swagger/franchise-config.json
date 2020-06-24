@@ -3,8 +3,8 @@
   "groupId":"net.slipp",
   "artifactId":"franchise",
 
-  "modelPackage": "net.slipp.franchise.models",
-  "apiPackage": "net.slipp.franchise.apis",
+  "modelPackage": "net.slipp.moim.models",
+  "apiPackage": "net.slipp.moim.apis",
 
   "java8": true,
   "useTags": true,
