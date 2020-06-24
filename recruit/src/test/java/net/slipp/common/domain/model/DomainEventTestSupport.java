@@ -1,5 +1,7 @@
 package net.slipp.common.domain.model;
 
+import net.slipp.ddd.events.DomainEvent;
+import net.slipp.ddd.events.DomainEventPublisher;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
