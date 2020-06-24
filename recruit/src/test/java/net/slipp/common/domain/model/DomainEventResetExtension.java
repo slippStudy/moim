@@ -1,5 +1,6 @@
 package net.slipp.common.domain.model;
 
+import net.slipp.ddd.events.DomainEventPublisher;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 

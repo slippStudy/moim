@@ -1,5 +1,6 @@
 include 'recruit'
 include 'slippcodegen'
 include 'assertions'
+include 'eventstore'
 
 

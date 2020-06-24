@@ -1,7 +1,4 @@
-package net.slipp.common.domain.model;
-
-import net.slipp.utils.Assertions;
-
+package net.slipp.ddd.events;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -21,6 +21,9 @@ repositories {
 
 dependencies {
 
+    implementation project(':assertions')
+    implementation project(':eventstore')
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'mysql:mysql-connector-java'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
@@ -45,7 +48,6 @@ dependencies {
 
     testImplementation 'com.tngtech.archunit:archunit-junit5:0.13.1'
 
-    implementation project(':assertions')
 }
 
 swaggerSources {
