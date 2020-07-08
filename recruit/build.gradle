@@ -118,15 +118,22 @@ liquibase {
 
     runList = project.ext.runList
 }
-//
-//configurations {
-//    providedRuntime
-//    implementation.exclude module: "spring-boot-starter-tomcat"
-//    all {
-//        resolutionStrategy {
-//            // Inherited version from Spring Boot can't be used because of regressions:
-//            // To be removed as soon as spring-boot use the same version
-//            force 'org.liquibase:liquibase-core:3.9.0'
-//        }
-//    }
-//}
+
+task dockerComposeUp(type: Exec) {
+    group = 'mysql'
+    commandLine "docker-compose", "-f", "src/main/docker/mysql.yml", "up", "-d"
+}
+
+task dockerComposeDown(type: Exec) {
+    group = 'mysql'
+    commandLine "docker-compose", "-f", "src/main/docker/mysql" +
+        ".yml", "down"
+}
+
+if (System.env['BOOTSTRAP_DOCKER'] == null) {
+    bootRun.dependsOn dockerComposeUp
+    bootRun.finalizedBy dockerComposeDown
+
+    test.dependsOn dockerComposeUp
+    test.finalizedBy dockerComposeDown
+}
