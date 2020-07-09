@@ -1,4 +1,5 @@
 package net.slipp.ddd.events;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,29 +11,90 @@ import static java.util.stream.Collectors.toList;
  */
 
 
-public class DomainEventPublisher {
+public final class DomainEventPublisher {
 
-    private static DomainEventPublisher domainEventPublisher = new DomainEventPublisher();
-    private List<DomainEvent> events = new ArrayList<>();
+    private static final ThreadLocal<DomainEventPublisher> domainEventPublisher = ThreadLocal.withInitial(DomainEventPublisher::new);
 
     public static DomainEventPublisher instance() {
-        return domainEventPublisher;
+        return domainEventPublisher.get();
+    }
+
+
+    private List<DomainEventSubscriber> subscribers;
+    private boolean publishing;
+
+    private DomainEventPublisher() {
+        ensureSubscribers();
+        setPublishing(false);
+    }
+
+    public void subscribe(DomainEventSubscriber aSubscriber) {
+        if (!this.isPublishing()) {
+            this.ensureSubscribers();
+
+            subscribers.add(aSubscriber);
+        }
     }
 
     public void publish(DomainEvent aDomainEvent) {
-        events.add(aDomainEvent);
+        if (isPublishing()) {
+            return;
+        }
+
+        try {
+            startPublishing();
+
+            subscribers().stream()
+                    .filter(s -> s.support(aDomainEvent))
+                    .forEach(s -> s.handle(aDomainEvent));
+        } finally {
+            finishPublishing();
+        }
     }
 
-    public List<Class<? extends DomainEvent>> getEventsClass() {
-
-        return events.stream().map(DomainEvent::getClass).collect(toList());
+    private void finishPublishing() {
+        setPublishing(false);
     }
 
-    public List<DomainEvent> allEvents() {
-        return events;
+    private void startPublishing() {
+        setPublishing(true);
+    }
+
+    private void setPublishing(boolean publishing) {
+        this.publishing = publishing;
+    }
+
+    private boolean isPublishing() {
+        return publishing;
+    }
+
+    private void ensureSubscribers() {
+        if (!this.hasSubscribers()) {
+            this.setSubscribers(new ArrayList<>());
+        }
+    }
+
+    private boolean hasSubscribers() {
+        return this.subscribers() != null;
+    }
+
+    private void setSubscribers(List<DomainEventSubscriber> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+
+    private List<DomainEventSubscriber> subscribers() {
+        return this.subscribers;
     }
 
     public void reset() {
-        events = new ArrayList<>();
+        if(isPublishing()) {
+            return;
+        }
+
+        this.setSubscribers(new ArrayList<>());
     }
+
+
+
 }

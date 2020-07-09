@@ -1,5 +1,8 @@
 package net.slipp.moim.domain.model.recruit;
 
+import net.slipp.ddd.events.SpyDomainEventSubscriber;
+import net.slipp.ddd.events.DomainEventPublisher;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,9 +16,28 @@ import static org.assertj.core.api.Assertions.*;
 
 class RecruitTest extends RecruitCommonTestSupport {
 
+
+    SpyDomainEventSubscriber aSpySubscriber1;
+    SpyDomainEventSubscriber aSpySubscriber2;
+
+    @Override
+    @BeforeEach
+    public void setUp() {
+
+        super.setUp();
+
+        aSpySubscriber1 = new SpyDomainEventSubscriber(RecruitCreatedEvent.class);
+        aSpySubscriber2 = new SpyDomainEventSubscriber(RecruitStatusChangedEvent.class);
+
+        DomainEventPublisher.instance().subscribe(aSpySubscriber1);
+        DomainEventPublisher.instance().subscribe(aSpySubscriber2);
+
+    }
+
     @Test
     @DisplayName("기본 생성자")
     void create() {
+
 
         assertThatIllegalStateException().isThrownBy(() -> Recruit(null, null));
         assertThatIllegalStateException().isThrownBy(() -> Recruit(null, userId));
@@ -32,9 +54,9 @@ class RecruitTest extends RecruitCommonTestSupport {
 
         assertThat(recruit.allInquiryDefinitions()).isEmpty();
 
-        expectedEventInOrder(RecruitCreatedEvent.class);
-
-        assertThat(domainEvent(RecruitCreatedEvent.class).getRecruitId()).isEqualTo(recruit.id());
+        assertThat(aSpySubscriber1.getPublishedDomainEvent())
+                .isInstanceOf(RecruitCreatedEvent.class)
+                .hasFieldOrPropertyWithValue("recruitId", recruitId);
 
     }
 
@@ -53,9 +75,13 @@ class RecruitTest extends RecruitCommonTestSupport {
 
         dut.start();
 
-        expectedEventInOrder(
-            RecruitCreatedEvent.class,
-            RecruitStatusChangedEvent.class);
+        //TODO 삭제 필요
+        assertThat(aSpySubscriber1.handled()).isEqualTo(true);
+        assertThat(aSpySubscriber1.getPublishedDomainEvent()).hasFieldOrPropertyWithValue("recruitId", recruitId);
+
+        assertThat(aSpySubscriber2.handled()).isEqualTo(true);
+        assertThat(aSpySubscriber2.getPublishedDomainEvent()).hasFieldOrPropertyWithValue("recruitId", recruitId);
+
 
         assertThatIllegalStateException().isThrownBy(() -> dut.addInquiryDefinition(anyInquiryDefinition()));
     }

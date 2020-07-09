@@ -5,6 +5,8 @@
 
 package net.slipp.moim.domain.model.recruit;
 
+import net.slipp.ddd.events.DomainEventPublisher;
+import net.slipp.ddd.events.SpyDomainEventSubscriber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,28 +21,40 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
 
     private Recruit dut;
 
+    SpyDomainEventSubscriber aSpySubscriber1;
+    SpyDomainEventSubscriber aSpySubscriber2;
+
     @Override
     @BeforeEach
     public void setUp() {
 
         super.setUp();
 
+        aSpySubscriber1 = new SpyDomainEventSubscriber(RecruitCreatedEvent.class);
+        aSpySubscriber2 = new SpyDomainEventSubscriber(RecruitStatusChangedEvent.class);
+
+        DomainEventPublisher.instance().subscribe(aSpySubscriber1);
+        DomainEventPublisher.instance().subscribe(aSpySubscriber2);
+
         dut = testRecruit();
 
-        expectedEvents(1);
+        assertThat(aSpySubscriber1.getPublishedDomainEvent()).isInstanceOf(RecruitCreatedEvent.class);
     }
 
     @Test
     void beginToStart() {
         dut.start();
+
         assertThat(dut.status()).isEqualTo(START);
-        expectedEventInOrder(
-            RecruitCreatedEvent.class,
-            RecruitStatusChangedEvent.class
-        );
-        assertThat(domainEvent(RecruitCreatedEvent.class).getRecruitId()).isEqualTo(dut.id());
-        assertThat(domainEvent(RecruitStatusChangedEvent.class).getRecruitId()).isEqualTo(dut.id());
-        assertThat(domainEvent(RecruitStatusChangedEvent.class).getStatus()).isEqualTo(dut.status());
+
+        //TODO order test
+        assertThat(aSpySubscriber1.getPublishedDomainEvent()).isInstanceOf(RecruitCreatedEvent.class);
+
+        assertThat(aSpySubscriber2.getPublishedDomainEvent())
+                .isInstanceOf(RecruitStatusChangedEvent.class)
+                .hasFieldOrPropertyWithValue("recruitId", recruitId)
+                .hasFieldOrPropertyWithValue("status", START);
+
     }
 
     @Test
@@ -60,10 +74,12 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
         dut.finish();
         assertThat(dut.status()).isEqualTo(FINISH);
 
-        expectedEventInOrder(
-                RecruitCreatedEvent.class,
-                RecruitStatusChangedEvent.class,
-                RecruitStatusChangedEvent.class);
+        assertThat(aSpySubscriber1.getPublishedDomainEvent()).isInstanceOf(RecruitCreatedEvent.class);
+
+        assertThat(aSpySubscriber2.getPublishedDomainEvent())
+                .isInstanceOf(RecruitStatusChangedEvent.class)
+                .hasFieldOrPropertyWithValue("recruitId", recruitId)
+                .hasFieldOrPropertyWithValue("status", FINISH);
     }
 
     @Test
