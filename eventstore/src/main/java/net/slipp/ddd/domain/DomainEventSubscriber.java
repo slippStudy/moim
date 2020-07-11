@@ -1,4 +1,4 @@
-package net.slipp.ddd.events;
+package net.slipp.ddd.domain;
 
 public interface DomainEventSubscriber {
     boolean support(DomainEvent anEvent);

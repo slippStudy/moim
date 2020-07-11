@@ -1,7 +1,7 @@
 package net.slipp.moim.domain.model.recruit;
 
 import com.google.common.collect.Sets;
-import net.slipp.ddd.events.DomainEventPublisher;
+import net.slipp.ddd.domain.DomainEventPublisher;
 import net.slipp.moim.domain.model.user.UserId;
 import net.slipp.utils.Assertions;
 

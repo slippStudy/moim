@@ -1,4 +1,4 @@
-package net.slipp.ddd.events;
+package net.slipp.ddd.domain;
 /**
  * Created by joenggyu0@gmail.com on 4/28/20
  * Github : http://github.com/lenkim
