@@ -1,4 +1,4 @@
-package net.slipp.ddd.events;
+package net.slipp.ddd.domain;
 
 public class SpyDomainEventSubscriber implements DomainEventSubscriber {
 

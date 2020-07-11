@@ -5,7 +5,7 @@
 
 package net.slipp.moim.domain.model.recruit;
 
-import net.slipp.ddd.events.DomainEvent;
+import net.slipp.ddd.domain.DomainEvent;
 
 import java.time.LocalDateTime;
 

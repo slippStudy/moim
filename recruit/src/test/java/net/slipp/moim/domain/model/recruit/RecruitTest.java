@@ -1,7 +1,7 @@
 package net.slipp.moim.domain.model.recruit;
 
-import net.slipp.ddd.events.SpyDomainEventSubscriber;
-import net.slipp.ddd.events.DomainEventPublisher;
+import net.slipp.ddd.domain.SpyDomainEventSubscriber;
+import net.slipp.ddd.domain.DomainEventPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
