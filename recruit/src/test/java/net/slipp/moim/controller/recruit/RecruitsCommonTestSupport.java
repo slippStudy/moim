@@ -52,7 +52,6 @@ abstract class RecruitsCommonTestSupport {
     private RecruitUpdateModel getUpdateModel() {
         Recruit recruit = getRecruit();
         updateModel = new RecruitUpdateModel();
-        updateModel.creator(recruit.owner().toString());
         updateModel.title(recruit.title().text());
         updateModel.contents(recruit.content().text());
         updateModel.deadlineDate(DEADLINE_DATE.dateTime());
@@ -62,7 +61,6 @@ abstract class RecruitsCommonTestSupport {
     private RecruitCreateModel getCreateModel() {
         Recruit recruit = getRecruit();
         createModel = new RecruitCreateModel();
-        createModel.creator(recruit.owner().toString());
         createModel.title(recruit.title().text());
         createModel.deadlineDate(DEADLINE_DATE.dateTime());
         createModel.contents(recruit.content().text());
@@ -71,8 +69,7 @@ abstract class RecruitsCommonTestSupport {
 
     private Recruit getRecruit() {
         RecruitId id = RecruitId.of("1");
-        UserId userId = UserId.of(SENDER_EMAIL);
-        recruit = Recruit.Recruit(id, userId);
+        recruit = Recruit.Recruit(id);
         recruit.setTitle(new Title(TITLE_TEXT));
         recruit.setContent(new Content(CONTENT_TEXT));
         recruit.setDeadLineDateTime(DEADLINE_DATE);

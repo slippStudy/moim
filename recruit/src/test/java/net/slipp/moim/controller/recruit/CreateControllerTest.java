@@ -59,15 +59,6 @@ public class CreateControllerTest extends RecruitsCommonTestSupport {
         expectedBadRequestApiByBody(createModel);
     }
 
-    @Test
-    public void _200_when_creator_title_deadline_date_is_existed() throws Exception {
-
-        mockMvc.perform(post(url)
-                .contentType(CONTENT_TYPE)
-                .content(mapper.writeValueAsString(createModel))
-        ).andExpect(status().isOk());
-    }
-
     private void expectedBadRequestApiByBody(RecruitCreateModel body) throws Exception {
         mockMvc.perform(post(url)
                 .contentType(CONTENT_TYPE)

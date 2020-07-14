@@ -39,14 +39,12 @@ class RecruitTest extends RecruitCommonTestSupport {
     void create() {
 
 
-        assertThatIllegalStateException().isThrownBy(() -> Recruit(null, null));
-        assertThatIllegalStateException().isThrownBy(() -> Recruit(null, userId));
-        assertThatIllegalStateException().isThrownBy(() -> Recruit(recruitId, null));
+        assertThatIllegalStateException().isThrownBy(() -> Recruit(null));
+        assertThatIllegalStateException().isThrownBy(() -> Recruit(null));
 
-        Recruit recruit = Recruit(recruitId, userId);
+        Recruit recruit = Recruit(recruitId);
 
         assertThat(recruit.id()).isEqualTo(recruitId);
-        assertThat(recruit.owner()).isEqualTo(userId);
         assertThat(recruit.title()).isEqualTo(UNTITLED);
         assertThat(recruit.content()).isEqualTo(NO_CONTENT);
         assertThat(recruit.status()).isEqualTo(BEGIN);

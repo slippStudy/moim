@@ -5,6 +5,7 @@
 
 package net.slipp.moim.domain.model.recruit;
 
+import lombok.NonNull;
 import net.slipp.ddd.events.DomainEvent;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ public class RecruitStatusChangedEvent implements DomainEvent {
     private final RecruitId recruitId;
     private final Status status;
 
-    public RecruitStatusChangedEvent(RecruitId recruitId, Status status) {
+    public RecruitStatusChangedEvent(@NonNull RecruitId recruitId, @NonNull Status status) {
         this.recruitId = recruitId;
         this.status = status;
     }

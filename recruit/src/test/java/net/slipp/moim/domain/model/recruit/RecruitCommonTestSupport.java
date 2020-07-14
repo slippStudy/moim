@@ -18,7 +18,7 @@ public abstract class RecruitCommonTestSupport extends DomainTestSupport {
     }
 
     protected Recruit testRecruit() {
-        return Recruit(recruitId, userId);
+        return Recruit(recruitId);
     }
 
     protected InquiryDefinition anyInquiryDefinition() {

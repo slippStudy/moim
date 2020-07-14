@@ -2,7 +2,6 @@ package net.slipp.moim.domain.model.recruit;
 
 import com.google.common.collect.Sets;
 import net.slipp.ddd.events.DomainEventPublisher;
-import net.slipp.moim.domain.model.user.UserId;
 import net.slipp.utils.Assertions;
 
 import javax.validation.ConstraintViolation;
@@ -12,7 +11,6 @@ import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,9 +20,6 @@ public class Recruit {
 
     @NotNull
     private final RecruitId id;
-
-    @NotNull
-    private final UserId owner;
 
     @NotNull
     private Title title;
@@ -41,23 +36,26 @@ public class Recruit {
     @NotNull
     private Set<InquiryDefinition> inquiryDefinitions;
 
-    public static Recruit Recruit(RecruitId id, UserId userId){
-        return new Recruit(id, userId);
+    @NotNull
+    private ManagedUrl managedUrl;
+
+    public static Recruit Recruit(RecruitId id){
+        return new Recruit(id);
     }
 
-    private Recruit(RecruitId id, UserId userId) {
+    private Recruit(RecruitId id) {
         this.id = id;
-        this.owner = userId;
         this.status = BEGIN;
         this.title = Title.UNTITLED;
         this.content = Content.NO_CONTENT;
-        this.setInquiryDefinitions(Sets.newHashSet());
+        this.setInquiryDefinitions(Sets.newLinkedHashSet());
         this.deadLineDateTime = DeadLineDateTime.DATETIME_NOW;
-
+        this.managedUrl = ManagedUrl.NO_CONTENT;
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<Recruit>> violations = validator.validate(this);
         Assertions.assertStateTrue(violations.isEmpty(), violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining()));
+
 
         DomainEventPublisher.instance().publish(new RecruitCreatedEvent(id));
     }
@@ -66,15 +64,17 @@ public class Recruit {
         if (BEGIN != status()) {
             throw new IllegalStateException();
         }
-        setStatus(START);
+        setStatus(WORKING);
+        DomainEventPublisher.instance().publish(new RecruitStatusChangedEvent(this.id, status));
     }
 
     public void finish() {
-        // TODO 상태 전이 책임을 다르 곳을 옮겨 주세요
-        if (START != status()) {
+        // TODO 상태 전이 책임을 다른 곳을 옮겨 주세요
+        if (WORKING != status()) {
             throw new IllegalStateException();
         }
         setStatus(FINISH);
+        DomainEventPublisher.instance().publish(new RecruitStatusChangedEvent(this.id, status));
     }
 
     public RecruitId id() {
@@ -97,6 +97,10 @@ public class Recruit {
         return deadLineDateTime;
     }
 
+    public ManagedUrl managedUrl() {
+        return managedUrl;
+    }
+
     public void setTitle(Title title) {
         if (title.text().length() < 2) {
             throw new IllegalArgumentException("2글자 이상 작성해주세요.");
@@ -116,7 +120,6 @@ public class Recruit {
         this.deadLineDateTime = deadLineDateTime;
     }
 
-
     public Set<InquiryDefinition> allInquiryDefinitions() {
         return Collections.unmodifiableSet(this.inquiryItems());
     }
@@ -128,20 +131,24 @@ public class Recruit {
         inquiryItems().add(anInquiryDefinition);
     }
 
+    public void setManagedUrl(ManagedUrl managedUrl) {
+        this.managedUrl = managedUrl;
+    }
+
+    public void changeInquiries(Set<InquiryDefinition> inquiryDefinitions){
+        this.setInquiryDefinitions(inquiryDefinitions);
+    }
+
     private Set<InquiryDefinition> inquiryItems() {
         return inquiryDefinitions;
     }
 
-    private void setInquiryDefinitions(HashSet<InquiryDefinition> inquiryDefinitions) {
+    private void setInquiryDefinitions(Set<InquiryDefinition> inquiryDefinitions) {
         this.inquiryDefinitions = inquiryDefinitions;
     }
 
     private void setStatus(@NotNull final Status status) {
         this.status = status;
         DomainEventPublisher.instance().publish(new RecruitStatusChangedEvent(this.id, this.status));
-    }
-
-    public UserId owner() {
-        return owner;
     }
 }
