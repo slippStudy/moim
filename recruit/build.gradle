@@ -35,14 +35,14 @@ dependencies {
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.1'
     implementation 'io.swagger:swagger-annotations:1.5.22'
 
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    runtimeOnly 'mysql:mysql-connector-java'
-//    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
-//    implementation "org.liquibase:liquibase-core"
-//    liquibaseRuntime "org.liquibase:liquibase-core"
-//    liquibaseRuntime "mysql:mysql-connector-java"
-//    liquibaseRuntime "org.liquibase.ext:liquibase-hibernate5:${liquibase_hibernate5_version}"
-//    liquibaseRuntime sourceSets.main.compileClasspath
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'mysql:mysql-connector-java'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    implementation "org.liquibase:liquibase-core"
+    liquibaseRuntime "org.liquibase:liquibase-core"
+    liquibaseRuntime "mysql:mysql-connector-java"
+    liquibaseRuntime "org.liquibase.ext:liquibase-hibernate5:${liquibase_hibernate5_version}"
+    liquibaseRuntime sourceSets.main.compileClasspath
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -93,12 +93,11 @@ if (!project.hasProperty("runList")) {
 
 project.ext.diffChangelogFile = "src/main/resources/config/liquibase/changelog/" + new Date().format("yyyyMMddHHmmss") + "_changelog.xml"
 
-/*
 liquibase {
     activities {
         main {
             driver "com.mysql.cj.jdbc.Driver"
-            url "jdbc:mysql://localhost:3306/slipping"
+            url "jdbc:mysql://localhost:3377/slipping"
             username "root"
             password ""
             changeLogFile "src/main/resources/config/liquibase/master.xml"
@@ -108,7 +107,7 @@ liquibase {
         }
         diffLog {
             driver "com.mysql.cj.jdbc.Driver"
-            url "jdbc:mysql://localhost:3306/slipping"
+            url "jdbc:mysql://localhost:3377/slipping"
             username "root"
             password ""
             changeLogFile project.ext.diffChangelogFile
@@ -139,4 +138,5 @@ if (System.env['BOOTSTRAP_DOCKER'] == null) {
 
     test.dependsOn dockerComposeUp
     test.finalizedBy dockerComposeDown
-}*/
+}
+
