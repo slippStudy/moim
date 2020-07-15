@@ -1,5 +1,8 @@
 package net.slipp.ddd.events;
 
+import net.slipp.ddd.domain.DomainEvent;
+import net.slipp.ddd.domain.DomainEventPublisher;
+import net.slipp.ddd.domain.DomainEventSubscriber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,9 +1,7 @@
-package net.slipp.ddd.events;
+package net.slipp.ddd.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * Created by joenggyu0@gmail.com on 4/21/20

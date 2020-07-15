@@ -3,7 +3,6 @@ package net.slipp.moim.application.service;
 import net.slipp.moim.domain.model.recruit.*;
 import net.slipp.utils.Assertions;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -19,7 +18,6 @@ public class RecruitApplicationService {
         this.recruitURLCreator = recruitURLCreator;
     }
 
-    @Transactional
     public Recruit createRecruit() {
         Recruit recruit = Recruit.Recruit(this.recruitRepository.nextId());
 
@@ -29,14 +27,13 @@ public class RecruitApplicationService {
         return recruit;
     }
 
-    @Transactional
     public void changeRecruitDetail(
             String aRecruitId,
-            Title aTitle,
+            String aTitle,
             Content aContent,
             DeadLineDateTime aDeadLineDateTime
     ) {
-        Assertions.assertArgumentNotEmpty(aTitle.text(), "제목이 존재해야 합니다.");
+        Assertions.assertArgumentNotEmpty(aTitle, "제목이 존재해야 합니다.");
         Assertions.assertArgumentNotEmpty(aContent.text(), "내용이 존재해야 합니다.");
         Assertions.assertArgumentTrue(aDeadLineDateTime.dateTime().isAfter(LocalDateTime.now()), "마감일시는 현재보다 이후여야 합니다.");
 
@@ -48,7 +45,6 @@ public class RecruitApplicationService {
         this.recruitRepository.save(recruit);
     }
 
-    @Transactional
     public void editInquiries(
             String aRecruitId,
             Set<InquiryDefinition> anInquiryDefinitions) {
@@ -62,7 +58,6 @@ public class RecruitApplicationService {
         this.recruitRepository.save(recruit);
     }
 
-    @Transactional
     public ManagedUrl getManagedUrl(
             String aRecruitId
     ) {

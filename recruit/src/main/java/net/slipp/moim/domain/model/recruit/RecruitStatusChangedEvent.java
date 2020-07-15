@@ -5,8 +5,8 @@
 
 package net.slipp.moim.domain.model.recruit;
 
-import lombok.NonNull;
-import net.slipp.ddd.events.DomainEvent;
+import net.slipp.ddd.domain.DomainEvent;
+import net.slipp.utils.Assertions;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +15,10 @@ public class RecruitStatusChangedEvent implements DomainEvent {
     private final RecruitId recruitId;
     private final Status status;
 
-    public RecruitStatusChangedEvent(@NonNull RecruitId recruitId, @NonNull Status status) {
+    public RecruitStatusChangedEvent(RecruitId recruitId, Status status) {
+        Assertions.assertArgumentNotNull(recruitId, "RecruitId는 존재해야 합니다.");
+        Assertions.assertArgumentNotNull(status, "status 는 존재해야 합니다.");
+
         this.recruitId = recruitId;
         this.status = status;
     }
