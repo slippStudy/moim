@@ -13,6 +13,7 @@ public class RecruitId {
 
     public static RecruitId of(String value) {
         RecruitId RecruitId = new RecruitId(value);
+
         return RecruitId;
     }
 

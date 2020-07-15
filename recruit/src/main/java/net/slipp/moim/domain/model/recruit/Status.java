@@ -7,5 +7,33 @@ package net.slipp.moim.domain.model.recruit;
 
 public enum Status {
 
-    BEGIN, START, FINISH
+    BEGIN {
+        public boolean isBegun() {
+            return true;
+        }
+    },
+    WORKING {
+        public boolean isWorking() {
+            return true;
+        }
+    },
+    FINISH {
+        public boolean isFinished() {
+            return true;
+        }
+    };
+
+    public boolean isBegun() {
+        return false;
+    }
+
+    public boolean isWorking() {
+        return false;
+    }
+
+    public boolean isFinished() {
+        return false;
+    }
+
+
 }

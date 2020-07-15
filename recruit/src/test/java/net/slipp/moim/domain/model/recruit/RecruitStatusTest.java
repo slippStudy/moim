@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static net.slipp.moim.domain.model.recruit.Status.FINISH;
-import static net.slipp.moim.domain.model.recruit.Status.START;
+import static net.slipp.moim.domain.model.recruit.Status.WORKING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
@@ -45,7 +45,7 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
     void beginToStart() {
         dut.start();
 
-        assertThat(dut.status()).isEqualTo(START);
+        assertThat(dut.status()).isEqualTo(WORKING);
 
         //TODO order test
         assertThat(aSpySubscriber1.getPublishedDomainEvent()).isInstanceOf(RecruitCreatedEvent.class);
@@ -53,7 +53,7 @@ public class RecruitStatusTest extends RecruitCommonTestSupport {
         assertThat(aSpySubscriber2.getPublishedDomainEvent())
                 .isInstanceOf(RecruitStatusChangedEvent.class)
                 .hasFieldOrPropertyWithValue("recruitId", recruitId)
-                .hasFieldOrPropertyWithValue("status", START);
+                .hasFieldOrPropertyWithValue("status", WORKING);
 
     }
 
