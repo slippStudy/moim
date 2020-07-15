@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import static net.slipp.moim.domain.model.recruit.Content.NO_CONTENT;
 import static net.slipp.moim.domain.model.recruit.Recruit.Recruit;
 import static net.slipp.moim.domain.model.recruit.Status.BEGIN;
-import static net.slipp.moim.domain.model.recruit.Title.UNTITLED;
 import static org.assertj.core.api.Assertions.*;
 
 class RecruitTest extends RecruitCommonTestSupport {
@@ -45,7 +44,7 @@ class RecruitTest extends RecruitCommonTestSupport {
         Recruit recruit = Recruit(recruitId);
 
         assertThat(recruit.id()).isEqualTo(recruitId);
-        assertThat(recruit.title()).isEqualTo(UNTITLED);
+        assertThat(recruit.title()).isEqualTo("");
         assertThat(recruit.content()).isEqualTo(NO_CONTENT);
         assertThat(recruit.status()).isEqualTo(BEGIN);
         assertThat(recruit.deadLineDateTime().dateTime().toLocalDate()).isEqualTo(LocalDateTime.now().toLocalDate());

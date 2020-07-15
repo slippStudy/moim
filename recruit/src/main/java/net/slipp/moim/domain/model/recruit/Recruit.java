@@ -22,7 +22,7 @@ public class Recruit {
     private final RecruitId id;
 
     @NotNull
-    private Title title;
+    private String title;
 
     @NotNull
     private Content content;
@@ -46,7 +46,7 @@ public class Recruit {
     private Recruit(RecruitId id) {
         this.id = id;
         this.status = BEGIN;
-        this.title = Title.UNTITLED;
+        this.title = "";
         this.content = Content.NO_CONTENT;
         this.setInquiryDefinitions(Sets.newLinkedHashSet());
         this.deadLineDateTime = DeadLineDateTime.DATETIME_NOW;
@@ -85,7 +85,7 @@ public class Recruit {
         return status;
     }
 
-    public Title title() {
+    public String title() {
         return title;
     }
 
@@ -101,8 +101,8 @@ public class Recruit {
         return managedUrl;
     }
 
-    public void setTitle(Title title) {
-        if (title.text().length() < 2) {
+    public void setTitle(String title) {
+        if (title.length() < 2) {
             throw new IllegalArgumentException("2글자 이상 작성해주세요.");
         }
         this.title = title;
