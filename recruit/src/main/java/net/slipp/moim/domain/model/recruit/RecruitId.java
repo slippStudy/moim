@@ -12,9 +12,8 @@ public class RecruitId {
     private final String value;
 
     public static RecruitId of(String value) {
-        RecruitId RecruitId = new RecruitId(value);
 
-        return RecruitId;
+        return new RecruitId(value);
     }
 
     RecruitId(String value) {
