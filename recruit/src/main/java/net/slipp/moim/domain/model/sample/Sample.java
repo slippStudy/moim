@@ -30,12 +30,8 @@ import static net.slipp.moim.domain.model.recruit.Status.*;
 @Setter
 public class Sample {
 
-//    @Embedded.Nullable
-//    private SampleId id;
-
-    @Id
-    @NotNull @NonNull
-    private Long id;
+    @Embedded.Nullable
+    private SampleId id;
 
     @NotNull @NonNull
     private String name;

@@ -38,12 +38,9 @@ public class SampleJdbcConfig extends AbstractJdbcConfiguration {
 
     private void setIds(Sample sample) {
 
-        if (sample.getId() == null || sample.getId() == 0) {
-            sample.setId(id.incrementAndGet());
+        if (sample.getId() == null || sample.getId().getId() == 0) {
+            sample.setId(SampleId.of(id.incrementAndGet()));
         }
-//        if (sample.getId() == null || sample.getId().getId() == 0) {
-//            sample.setId(SampleId.of(id.incrementAndGet()));
-//        }
 //
 //        Manual manual = legoSet.getManual();
 //
