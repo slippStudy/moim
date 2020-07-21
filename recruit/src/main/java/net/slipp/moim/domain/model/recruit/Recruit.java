@@ -131,10 +131,6 @@ public class Recruit {
         inquiryItems().add(anInquiryDefinition);
     }
 
-    public void setManagedUrl(ManagedUrl managedUrl) {
-        this.managedUrl = managedUrl;
-    }
-
     public void changeInquiries(Set<InquiryDefinition> inquiryDefinitions){
         this.setInquiryDefinitions(inquiryDefinitions);
     }
