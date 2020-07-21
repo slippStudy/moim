@@ -35,7 +35,7 @@ dependencies {
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.1'
     implementation 'io.swagger:swagger-annotations:1.5.22'
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     runtimeOnly 'mysql:mysql-connector-java'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     implementation "org.liquibase:liquibase-core"
@@ -124,6 +124,10 @@ liquibase {
 task dockerComposeUp(type: Exec) {
     group = 'mysql'
     commandLine "docker-compose", "-f", "src/main/docker/mysql.yml", "up", "-d"
+
+    doLast {
+        sleep(15 * 1000)
+    }
 }
 
 task dockerComposeDown(type: Exec) {
@@ -132,11 +136,11 @@ task dockerComposeDown(type: Exec) {
         ".yml", "down"
 }
 
-if (System.env['BOOTSTRAP_DOCKER'] == null) {
-    bootRun.dependsOn dockerComposeUp
-    bootRun.finalizedBy dockerComposeDown
+//if (System.env['BOOTSTRAP_DOCKER'] == null) {
+//    bootRun.dependsOn dockerComposeUp
+//    bootRun.finalizedBy dockerComposeDown
+//    test.dependsOn dockerComposeUp
+//    test.finalizedBy dockerComposeDown
+//}
 
-    test.dependsOn dockerComposeUp
-    test.finalizedBy dockerComposeDown
-}
 

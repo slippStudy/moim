@@ -1,4 +1,4 @@
 create table sample (
-    id int primary key,
+    id bigint primary key,
     name varchar(255)
 );
