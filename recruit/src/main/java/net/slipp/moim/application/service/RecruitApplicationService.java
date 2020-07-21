@@ -1,5 +1,6 @@
 package net.slipp.moim.application.service;
 
+import net.slipp.moim.application.Application;
 import net.slipp.moim.domain.model.recruit.*;
 import net.slipp.utils.Assertions;
 import org.springframework.stereotype.Service;
@@ -11,18 +12,15 @@ import java.util.Set;
 public class RecruitApplicationService {
 
     private final RecruitRepository recruitRepository;
-    private final RecruitURLCreator recruitURLCreator;
 
-    public RecruitApplicationService(RecruitRepository recruitRepository, RecruitURLCreator recruitURLCreator) {
+    public RecruitApplicationService(RecruitRepository recruitRepository) {
         this.recruitRepository = recruitRepository;
-        this.recruitURLCreator = recruitURLCreator;
     }
 
+
+    @Application
     public Recruit createRecruit() {
         Recruit recruit = Recruit.Recruit(this.recruitRepository.nextId());
-
-        recruit.setManagedUrl(recruitURLCreator.createManagedURL(recruit.id()));
-
         this.recruitRepository.save(recruit);
         return recruit;
     }

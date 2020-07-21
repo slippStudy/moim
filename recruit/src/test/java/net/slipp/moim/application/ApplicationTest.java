@@ -1,16 +1,20 @@
 package net.slipp.moim.application;
 
+import net.slipp.common.domain.model.DomainEventTestSupport;
 import net.slipp.moim.application.service.RecruitApplicationService;
 import net.slipp.moim.domain.model.recruit.Recruit;
 import net.slipp.moim.domain.model.recruit.RecruitId;
 import net.slipp.moim.domain.model.recruit.RecruitRepository;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-public class ApplicationTest {
+@ExtendWith(MockitoExtension.class)
+public class ApplicationTest implements DomainEventTestSupport {
 
     @InjectMocks
-    protected RecruitApplicationService recruitApplicationService;
+    protected RecruitApplicationService dut;
 
     @Mock
     protected RecruitRepository recruitRepository;
