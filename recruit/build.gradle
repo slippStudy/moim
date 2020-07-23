@@ -136,7 +136,7 @@ if (System.env['BOOTSTRAP_DOCKER'] == null) {
     bootRun.dependsOn dockerComposeUp
     bootRun.finalizedBy dockerComposeDown
 
-    test.dependsOn dockerComposeUp
-    test.finalizedBy dockerComposeDown
+//    test.dependsOn dockerComposeUp
+//    test.finalizedBy dockerComposeDown
 }
 
