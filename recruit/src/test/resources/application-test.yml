@@ -1,10 +1,9 @@
 spring:
     liquibase:
-        enabled: true
+        enabled: false
         change-log: classpath:config/liquibase/master.xml
 
     datasource:
-        type: com.zaxxer.hikari.HikariDataSource
         hikari:
             driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
             jdbc-url: jdbc:log4jdbc:mysql://localhost:3377/slipping?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
@@ -21,7 +20,6 @@ spring:
                 prepStmtCacheSize: 250
                 prepStmtCacheSqlLimit: 2048
                 useServerPrepStmts: true
-
 mybatis:
     #    type-aliases-package: com.example.domain.model
     #    type-handlers-package: com.example.typehandler
