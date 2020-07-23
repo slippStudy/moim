@@ -4,5 +4,6 @@
 <mapper namespace="net.slipp.moim.domain.model.sample.SampleMapper">
 
     <select id="findAll" resultType="net.slipp.moim.domain.model.sample.Sample">
+        select * from sample
     </select>
 </mapper>

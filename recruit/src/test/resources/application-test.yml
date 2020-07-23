@@ -4,11 +4,12 @@ spring:
         change-log: classpath:config/liquibase/master.xml
 
     datasource:
+        type: com.zaxxer.hikari.HikariDataSource
         hikari:
             driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
             jdbc-url: jdbc:log4jdbc:mysql://localhost:3377/slipping?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-            username: root
-            password:
+            username: slipp
+            password: slipppw
             poolName: Hikari
             maximum-pool-size: 3
             minimum-idle: 3
