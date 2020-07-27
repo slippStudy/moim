@@ -12,5 +12,6 @@
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" />
     <include file="config/liquibase/changelog/20200614181700_modify_sample.xml" />
     <include file="config/liquibase/changelog/20200614182000_add_column_in_sample.xml" />
+    <include file="config/liquibase/changelog/20200727000000_create_table_store_event.xml" />
 
 </databaseChangeLog>
