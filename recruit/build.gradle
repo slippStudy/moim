@@ -56,7 +56,7 @@ swaggerSources {
     franchise {
         inputFile = file('swagger/franchise-swagger.yaml')
         code {
-            language = 'Slipp'
+            language = 'net.slipp.moim.Slipp'
             components = ['models', 'apis']
             configFile = file("swagger/franchise-config.json")
             outputDir = file("$projectDir/src/main/generated")
