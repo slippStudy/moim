@@ -1,3 +1,4 @@
+package com.slipp.moim;
 /*
  * Created by joenggyu0@gmail.com on 6/13/20
  * Github : http://github.com/lenkim
@@ -172,7 +173,7 @@ public class Slipp extends AbstractJavaCodegen
             this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(DefaultConstant.IMPLICIT_HEADERS.getValue()).toString()));
         }
 
-        if (additionalProperties.containsKey(DefaultConstant.HELLO.getValue())){
+        if (additionalProperties.containsKey(DefaultConstant.HELLO.getValue())) {
             additionalProperties.put("hello", DefaultConstant.HELLO.getValue());
         }
 
