@@ -1,3 +1,5 @@
+package net.slipp.moim;
+
 public enum DefaultConstant {
 
     DEFAULT_LIBRARY("spring-boot"),
@@ -12,7 +14,7 @@ public enum DefaultConstant {
     IMPLICIT_HEADERS("implicitHeaders"),
     HELLO("hello");
 
-    private String value;
+    private final String value;
 
     DefaultConstant(String value) {
         this.value = value;
