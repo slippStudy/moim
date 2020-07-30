@@ -19,14 +19,22 @@ repositories {
     jcenter()
 }
 
+dependencyManagement {
+    dependencies {
+        dependency group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'
+        dependency group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.1.1'
+    }
+}
+
 dependencies {
 
     implementation project(':assertions')
     implementation project(':eventstore')
 
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter'
+
     implementation 'org.springframework.boot:spring-boot-starter-aop'
-
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.projectlombok:lombok'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
@@ -37,7 +45,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'mysql:mysql-connector-java'
-    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1'
     implementation "org.liquibase:liquibase-core"
     liquibaseRuntime "org.liquibase:liquibase-core"
     liquibaseRuntime "mysql:mysql-connector-java"
