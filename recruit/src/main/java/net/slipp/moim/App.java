@@ -5,7 +5,6 @@ import net.slipp.ddd.events.DefaultEventStore;
 import net.slipp.ddd.events.EventStore;
 import net.slipp.ddd.events.StoredEventRepository;
 import net.slipp.moim.port.repository.MybatisStoredEventRepository;
-import net.slipp.moim.port.repository.StoredEventRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
@@ -22,7 +21,6 @@ public class App {
         SpringApplication.run(App.class, args);
     }
 
-
     @EnableAspectJAutoProxy
     @Configuration
     static class AopConfiguration {
@@ -31,10 +29,16 @@ public class App {
     @Configuration
     static class DomainEventConfiguration {
 
-//        @Bean
-//        public StoredEventRepository storedEventRepository() {
-//            return new StoredEventRepositoryImpl();
-//        }
+        private final MybatisStoredEventRepository mybatisStoredEventRepository;
+
+        DomainEventConfiguration(MybatisStoredEventRepository mybatisStoredEventRepository) {
+            this.mybatisStoredEventRepository = mybatisStoredEventRepository;
+        }
+
+        @Bean
+        public StoredEventRepository storedEventRepository() {
+            return mybatisStoredEventRepository;
+        }
 
         @Bean
         public EventStore eventStore(StoredEventRepository storedEventRepository) {

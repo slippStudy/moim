@@ -14,16 +14,6 @@ public class DefaultEventStore implements EventStore {
     }
 
     @Override
-    public List<StoredEvent> allStoredEventsBetween(long aLowStoredEventId, long aHighStoredEventId) {
-        return storedEventRepository.allStoredEventsBetween(aLowStoredEventId, aHighStoredEventId);
-    }
-
-    @Override
-    public List<StoredEvent> allStoredEventsSince(long aStoredEventId) {
-        return storedEventRepository.allStoredEventsSince(aStoredEventId);
-    }
-
-    @Override
     public StoredEvent append(DomainEvent aDomainEvent) {
         return storedEventRepository.save(null);
     }
@@ -33,8 +23,4 @@ public class DefaultEventStore implements EventStore {
         // DO NOTHING
     }
 
-    @Override
-    public long countStoredEvents() {
-        return storedEventRepository.countStoredEvents();
-    }
 }
