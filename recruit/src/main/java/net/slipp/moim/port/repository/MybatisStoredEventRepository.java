@@ -6,24 +6,19 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.List;
-import java.util.Optional;
-
 @Mapper
-public interface MybatisStoredEventRepository {
+public interface MybatisStoredEventRepository extends StoredEventRepository {
 
-    @Insert("insert into stored_event(event_body, occurred_on, type_name) values (#{eventBody}, #{occurredOn}, #{typeName})")
-    void save(StoredEvent anEvent);
+    @Override
+    default StoredEvent save(StoredEvent anEvent) {
 
-    @Select("")
-    List<StoredEvent> allStoredEventsBetween(long aLowStoredEventId, long aHighStoredEventId);
+        this.insert(anEvent);
+        return this.findStoredEventByEventId(anEvent.eventId());
+    };
 
-    @Select("select * from stored_event where event_id > #{aStoredEventId}")
-    List<StoredEvent> allStoredEventsSince(long aStoredEventId);
+    @Insert("insert into stored_event(event_id, event_body, occurred_on, type_name) values (#{eventId}, #{eventBody}, #{occurredOn}, #{typeName})")
+    void insert(StoredEvent anEvent);
 
-    @Select("")
-    long countStoredEvents();
-
-    @Select("")
-    Optional<StoredEvent> findByEventId(Long eventId);
+    @Select("select * from stored_event where event_id = #{eventId}")
+    StoredEvent findStoredEventByEventId(String eventId);
 }

@@ -8,7 +8,8 @@
     <changeSet id="0000000000004" author="develophil">
         <sql>
             create table stored_event (
-                event_id bigint primary key AUTO_INCREMENT,
+                id bigint primary key AUTO_INCREMENT,
+                event_id varchar(36),
                 event_body varchar(1000),
                 occurred_on datetime default current_timestamp,
                 type_name varchar(100)
