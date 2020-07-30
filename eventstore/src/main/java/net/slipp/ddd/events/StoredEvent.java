@@ -6,30 +6,17 @@ import java.time.LocalDateTime;
 
 public class StoredEvent {
 
-    private Long eventId;
-    private String eventBody;
-    private LocalDateTime occurredOn;
-    private String typeName;
-
-    public StoredEvent(String aTypeName, LocalDateTime anOccurredOn, String anEventBody) {
-        this();
-
-        this.setEventBody(anEventBody);
-        this.setOccurredOn(anOccurredOn);
-        this.setTypeName(aTypeName);
-    }
-
-    public StoredEvent(String aTypeName, LocalDateTime anOccurredOn, String anEventBody, Long anEventId) {
-        this(aTypeName, anOccurredOn, anEventBody);
-
-        this.setEventId(anEventId);
-    }
+    private Long id;
+    private final String eventId;
+    private final String eventBody;
+    private final LocalDateTime occurredOn;
+    private final String typeName;
 
     public String eventBody() {
         return this.eventBody;
     }
 
-    public Long eventId() {
+    public String eventId() {
         return this.eventId;
     }
 
@@ -59,31 +46,20 @@ public class StoredEvent {
     }
 
 
-    public StoredEvent() {
+    public StoredEvent(Long id, String eventId, String eventBody, LocalDateTime occurredOn, String typeName) {
+        this.id = id;
+        this.eventId = eventId;
+        this.eventBody = eventBody;
+        this.occurredOn = occurredOn;
+        this.typeName = typeName;
+    }
+
+    public StoredEvent(String eventId, String eventBody, LocalDateTime occurredOn, String typeName) {
         super();
-        this.setEventId(-1);
+        this.eventId = eventId;
+        this.eventBody = eventBody;
+        this.occurredOn = occurredOn;
+        this.typeName = typeName;
     }
 
-    protected void setEventBody(String anEventBody) {
-        //TODO  this.assertArgumentNotEmpty(anEventBody, "The event body is required.");
-        //this.assertArgumentLength(anEventBody, 1, 65000, "The event body must be 65000 characters or less.");
-
-        this.eventBody = anEventBody;
-    }
-
-    protected void setEventId(long anEventId) {
-        this.eventId = anEventId;
-    }
-
-    protected void setOccurredOn(LocalDateTime anOccurredOn) {
-        //LocalDateTime.of()
-        this.occurredOn = anOccurredOn;
-    }
-
-    protected void setTypeName(String aTypeName) {
-        //TODO this.assertArgumentNotEmpty(aTypeName, "The event type name is required.");
-        //this.assertArgumentLength(aTypeName, 1, 100, "The event type name must be 100 characters or less.");
-
-        this.typeName = aTypeName;
-    }
 }

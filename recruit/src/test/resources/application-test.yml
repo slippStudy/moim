@@ -1,6 +1,6 @@
 spring:
     liquibase:
-        enabled: true
+        enabled: false
         change-log: classpath:config/liquibase/master.xml
 
     datasource:
@@ -21,7 +21,6 @@ spring:
                 prepStmtCacheSize: 250
                 prepStmtCacheSqlLimit: 2048
                 useServerPrepStmts: true
-
 mybatis:
     #    type-aliases-package: com.example.domain.model
     #    type-handlers-package: com.example.typehandler

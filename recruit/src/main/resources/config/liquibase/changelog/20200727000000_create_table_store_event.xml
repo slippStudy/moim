@@ -5,12 +5,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-    <changeSet id="00000000000003" author="develophil">
-        <addColumn tableName="sample">
-            <column name="address" type="varchar(255)" />
-        </addColumn>
+    <changeSet id="0000000000004" author="develophil">
         <sql>
-            UPDATE slipping.sample SET address='테스트 지역';
+            create table stored_event (
+                id bigint primary key AUTO_INCREMENT,
+                event_id varchar(36),
+                event_body varchar(1000),
+                occurred_on datetime default current_timestamp,
+                type_name varchar(100)
+            );
         </sql>
     </changeSet>
 

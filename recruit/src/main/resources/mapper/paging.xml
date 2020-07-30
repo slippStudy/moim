@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+
+<mapper namespace="paging">
+
+    <sql id="pagingHeader">
+            SELECT PAGING.* FROM(
+    </sql>
+
+    <sql id="pagingTail">
+            ) PAGING
+            LIMIT #{param.pageable.pageSize} OFFSET #{param.pageable.offset}
+    </sql>
+
+    <sql id="totalCountHeader">
+            SELECT count(*) FROM (
+    </sql>
+
+    <sql id="totalCountTail">
+            ) TOTAL
+    </sql>
+
+</mapper>

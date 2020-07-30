@@ -1,8 +1,9 @@
-package net.slipp.moim;
+package net.slipp;
 
 
 import net.slipp.ddd.events.DefaultEventStore;
 import net.slipp.ddd.events.EventStore;
+import net.slipp.ddd.events.StoredEvent;
 import net.slipp.ddd.events.StoredEventRepository;
 import net.slipp.moim.port.repository.MybatisStoredEventRepository;
 import org.springframework.boot.SpringApplication;
@@ -13,13 +14,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
+import java.util.List;
+import java.util.Optional;
+
 @SpringBootApplication
 @EnableConfigurationProperties({ LiquibaseProperties.class })
-public class App {
+public class TestApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(TestApp.class, args);
     }
+
 
     @EnableAspectJAutoProxy
     @Configuration
